@@ -3,8 +3,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBagShopping } from "@fortawesome/free-solid-svg-icons";
 import dark from "../images/mode/night-mode.png";
 import light from "../images/mode/sun.png";
-import shoppingBlack from "../images/shopping-bag-black.png";
-import shoppingWhite from "../images/shopping-bag-white.png";
+import shoppingBlack from "../images/bag-black.png";
+import shoppingWhite from "../images/bag-white.png";
 import { useDispatch, useSelector } from "react-redux";
 import { changeMode, changeOpenShopping } from "../redux/setting/action";
 function Shopping_mode() {

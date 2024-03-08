@@ -8,7 +8,7 @@ function Header() {
   let state = useSelector((state) => state.setting);
   return (
     <div className=" relative w-full h-20 flex justify-center   ">
-      <div className="header h-20 flex items-center justify-between py-2 fixed top-0 container  w-full  bg-white dark:bg-mainBlack shadow   ">
+      <div className="header h-20 flex items-center justify-between py-2 fixed top-0 container  w-full  bg-white dark:bg-[#1F1F1F] shadow   ">
         <Logo />
         <Search />
         <Shopping_mode />

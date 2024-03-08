@@ -17,7 +17,7 @@ function App() {
           !mode && "dark"
         }`}
       >
-        <div className="w-full h-full dark:bg-slate-900">
+        <div className="w-full h-full dark:bg-[#121212]">
           <div className={`App relative container h-[3000px] `}>
             <Header />
             <ShoppingCart />

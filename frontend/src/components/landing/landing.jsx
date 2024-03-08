@@ -8,9 +8,9 @@ import img6 from "../images/players/6.jpg";
 
 function Landing() {
   const [stand, setStand] = useState(0);
-  
+
   useEffect(() => {
-    const balls = document.querySelectorAll(".ball"); // Move this line here
+    const balls = document.querySelectorAll(".ball");
     balls.forEach((b) => {
       b.classList.remove("active");
     });
@@ -19,11 +19,6 @@ function Landing() {
 
   const handleBallClick = (i) => {
     setStand(i);
-    const balls = document.querySelectorAll(".ball"); // Move this line here
-    balls.forEach((b) => {
-      b.classList.remove("active");
-    });
-    balls[i].classList.add("active");
   };
 
   const list = [img1, img2, img3, img4, img5, img6];
@@ -40,13 +35,15 @@ function Landing() {
 
   return (
     <div className="mt-5 gap-4 flex flex-col justify-center items-center">
-      <img className=" rounded-sm" src={list[stand]} alt="" />
+      <img className="rounded-sm" src={list[stand]} alt="" />
       <div className="balls flex gap-2">
-        {list.map((e, i) => (
+        {list.map((_, i) => (
           <div
             key={i}
             onClick={() => handleBallClick(i)}
-            className="ball w-3 h-3 rounded-full opacity-20 bg-mainBlack  "
+            className={`ball w-3 h-3 rounded-full opacity-20 bg-mainBlack ${
+              i === stand ? "active" : ""
+            }`}
           ></div>
         ))}
       </div>
