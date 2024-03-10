@@ -5,7 +5,7 @@ const {
   Type,
   createTypeValidation,
   updateTypeValidation,
-} = require("../models/type.model");
+} = require("../models/Type");
 
 /**
  * @desc  Create a new type
@@ -22,6 +22,7 @@ const createType = asyncHandler(async (req, res) => {
   const type = new Type({
     name: req.body.name,
     description: req.body.description,
+    category: req.body.category,
   });
 
   const savedType = await type.save();
@@ -69,7 +70,9 @@ const updateType = asyncHandler(async (req, res) => {
  * @access Public
  */
 const getTypeById = asyncHandler(async (req, res) => {
-  const type = await Type.findById(req.params.id);
+  const type = await Type.findById(req.params.id)
+    .populate("category")
+    .populate("products");
   if (!type) {
     return res.status(400).json({ message: "Type not found" });
   }
@@ -84,7 +87,7 @@ const getTypeById = asyncHandler(async (req, res) => {
  * @access Public
  */
 const getAllTypes = asyncHandler(async (req, res) => {
-  const types = await Type.find();
+  const types = await Type.find().populate("category");
   res.status(200).json(types);
 });
 

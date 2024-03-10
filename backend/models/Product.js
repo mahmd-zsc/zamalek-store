@@ -1,5 +1,3 @@
-// product.model.js
-
 const mongoose = require("mongoose");
 const joi = require("joi");
 
@@ -31,31 +29,20 @@ const productSchema = new mongoose.Schema(
       ref: "Category",
       required: true,
     },
-    images: [
-      {
-        url: {
-          type: String,
-          required: true,
-        },
-        publicId: {
-          type: String,
-          required: true,
-        },
-        isMain: {
-          type: Boolean,
-          default: false,
-        },
+    image: {
+      url: {
+        type: String,
+        default: null,
       },
-    ],
+      publicId: {
+        type: String,
+        default: null,
+      },
+    },
     brand: {
       type: String,
       default: "unknown",
       trim: true,
-    },
-    stockQuantity: {
-      type: Number,
-      default: 0,
-      min: 0,
     },
     ratings: {
       type: Number,
@@ -63,12 +50,6 @@ const productSchema = new mongoose.Schema(
       min: 0,
       max: 5,
     },
-    reviews: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Review",
-      },
-    ],
     tags: [
       {
         type: String,
@@ -76,8 +57,13 @@ const productSchema = new mongoose.Schema(
       },
     ],
     type: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Type",
       required: true,
+    },
+    color: {
+      type: String,
+      required: true, // Make color field required
       trim: true,
     },
   },
@@ -91,8 +77,8 @@ const productSchema = new mongoose.Schema(
 // Define a virtual field for reviews
 productSchema.virtual("reviews", {
   ref: "Review",
+  foreignField: "productId",
   localField: "_id",
-  foreignField: "product",
 });
 
 const Product = mongoose.model("Product", productSchema);
@@ -102,17 +88,16 @@ const createProductValidation = (product) => {
     name: joi.string().required().trim(),
     description: joi.string().required(),
     price: joi.number().required().min(0),
-    sizes: joi.array().items(joi.string().required()), // Assuming size is a string in this example
-    category: joi.string().required(),
-    images: joi.array().items(
-      joi.object({
-        url: joi.string().required(),
-        publicId: joi.string().required(),
-        isMain: joi.boolean(),
-      })
-    ),
+    sizes: joi.array().items(joi.string().required()),
+    category: joi
+      .string()
+      .required()
+      .regex(/^[0-9a-fA-F]{24}$/),
+    image: joi.object({
+      url: joi.string(),
+      publicId: joi.string(),
+    }),
     brand: joi.string().trim(),
-    stockQuantity: joi.number().min(0),
     ratings: joi.number().min(0).max(5),
     reviews: joi.array().items(
       joi.object({
@@ -128,7 +113,12 @@ const createProductValidation = (product) => {
       })
     ),
     tags: joi.array().items(joi.string().trim()),
-    type: joi.string().required().trim(),
+    type: joi
+      .string()
+      .required()
+      .trim()
+      .regex(/^[0-9a-fA-F]{24}$/),
+    color: joi.string().required().trim(), // Make color required
   });
 
   return schema.validate(product);
@@ -140,17 +130,13 @@ const updateProductValidation = (obj) => {
       name: joi.string().trim(),
       description: joi.string(),
       price: joi.number().min(0),
-      sizes: joi.array().items(joi.string()), // Assuming size is a string in this example
-      category: joi.string(),
-      images: joi.array().items(
-        joi.object({
-          url: joi.string(),
-          publicId: joi.string(),
-          isMain: joi.boolean(),
-        })
-      ),
+      sizes: joi.array().items(joi.string()),
+      category: joi.string().regex(/^[0-9a-fA-F]{24}$/),
+      image: joi.object({
+        url: joi.string(),
+        publicId: joi.string(),
+      }),
       brand: joi.string().trim(),
-      stockQuantity: joi.number().min(0),
       ratings: joi.number().min(0).max(5),
       reviews: joi.array().items(
         joi.object({
@@ -166,9 +152,13 @@ const updateProductValidation = (obj) => {
         })
       ),
       tags: joi.array().items(joi.string().trim()),
-      type: joi.string().trim(),
+      type: joi
+        .string()
+        .trim()
+        .regex(/^[0-9a-fA-F]{24}$/),
+      color: joi.string().trim(), // Validation for color property
     })
-    .min(1); // at least one property is required for update
+    .min(1);
 
   return schema.validate(obj);
 };

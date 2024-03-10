@@ -89,10 +89,39 @@ const getAllReviews = asyncHandler(async (req, res) => {
   res.status(200).json(reviews);
 });
 
+/**
+ * @desc Toggle like on a review by ID
+ * @route POST /api/reviews/:id/like
+ * @method POST
+ * @access Public
+ */
+const toggleLikeReview = asyncHandler(async (req, res) => {
+  const review = await Review.findById(req.params.id);
+  if (!review) {
+    return res.status(400).json({ message: "Review not found" });
+  }
+
+  // Check if the user has already liked the review
+  const userLikedIndex = review.likes.indexOf(req.user.id);
+
+  if (userLikedIndex === -1) {
+    // If the user has not liked, add the like
+    review.likes.push(req.user.id);
+  } else {
+    // If the user has already liked, remove the like
+    review.likes.splice(userLikedIndex, 1);
+  }
+
+  // Save the updated review
+  const updatedReview = await review.save();
+
+  res.status(200).json(updatedReview);
+});
 module.exports = {
   createReview,
   deleteReview,
   updateReview,
   getReviewById,
   getAllReviews,
+  toggleLikeReview,
 };

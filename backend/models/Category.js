@@ -1,21 +1,37 @@
 const mongoose = require("mongoose");
 const joi = require("joi");
 
-const categorySchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-    unique: true,
-    trim: true,
+const categorySchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+      unique: true,
+      trim: true,
+    },
+    description: {
+      type: String,
+      required: true,
+    },
+    // products: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
+    // You can replace 'Product' with the actual model name for your products
   },
-  description: {
-    type: String,
-    required: true,
-  },
-  products: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
-  // You can replace 'Product' with the actual model name for your products
+  {
+    timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
+  }
+);
+categorySchema.virtual("types", {
+  ref: "Type",
+  foreignField: "category",
+  localField: "_id",
 });
-
+categorySchema.virtual("products", {
+  ref: "Product",
+  foreignField: "category",
+  localField: "_id",
+});
 const Category = mongoose.model("Category", categorySchema);
 
 const createCategoryValidation = (obj) => {

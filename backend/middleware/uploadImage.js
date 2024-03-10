@@ -1,14 +1,15 @@
 let multer = require("multer");
 let path = require("path");
+
 let imageStorage = multer.diskStorage({
-  destination: (req, fill, cb) => {
+  destination: (req, file, cb) => {
     cb(null, path.join(__dirname, "../images"));
   },
-  filename: (req, fill, cb) => {
-    if (fill) {
+  filename: (req, file, cb) => {
+    if (file) {
       cb(
         null,
-        new Date().toISOString().split(":").join("-") + fill.originalname
+        new Date().toISOString().split(":").join("-") + file.originalname
       );
     } else {
       cb(null, false);
@@ -22,7 +23,7 @@ module.exports.imageUpload = multer({
     if (file.mimetype.startsWith("image")) {
       cb(null, true);
     } else {
-      cb({ message: "Unsupported fill formate" }, false);
+      cb({ message: "Unsupported file format" }, false);
     }
   },
   //   limits: { fileSize: 1024 * 1024 },

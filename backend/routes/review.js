@@ -5,7 +5,8 @@ const {
   createReview,
   updateReview,
   deleteReview,
-} = require("../controllers/reviewController");
+  toggleLikeReview,
+} = require("../controllers/reviewCtrl");
 
 const router = express.Router();
 
@@ -15,5 +16,6 @@ router.route("/").get(getAllReviews).post(createReview);
 
 // Route: Get, Update, and Delete a review by ID (Public access)
 router.route("/:id").get(getReviewById).put(updateReview).delete(deleteReview);
+router.route("/:id/like").post(toggleLikeReview);
 
 module.exports = router;

@@ -15,7 +15,7 @@ const {
 const createCategory = asyncHandler(async (req, res) => {
   const { error } = createCategoryValidation(req.body);
   if (error) {
-    return res.status(400).json({ massage: error.details[0].massage });
+    return res.status(400).json({ massage: error.details[0].message });
   }
   const category = new Category({
     name: req.body.name,
@@ -68,7 +68,7 @@ const updateCategory = asyncHandler(async (req, res) => {
  * @access Public
  */
 const getCategoryById = asyncHandler(async (req, res) => {
-  const category = await Category.findById(req.params.id);
+  const category = await Category.findById(req.params.id).populate("products").populate("types");
   if (!category) {
     return res.status(400).json({ massage: "category not found" });
   }

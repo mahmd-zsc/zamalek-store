@@ -1,22 +1,34 @@
 const mongoose = require("mongoose");
 const joi = require("joi");
 
-const typeSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-    trim: true,
-    unique: true,
+const typeSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+      trim: true,
+      unique: true,
+    },
+    description: {
+      type: String,
+      required: true,
+    },
+    category: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Category",
+      required: true,
+    },
   },
-  description: {
-    type: String,
-    required: true,
-  },
-  category: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Category", // Replace with the actual model name for your categories
-    required: true,
-  },
+  {
+    timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
+  }
+);
+typeSchema.virtual("products", {
+  ref: "Product",
+  foreignField: "type",
+  localField: "_id",
 });
 
 const Type = mongoose.model("Type", typeSchema);
