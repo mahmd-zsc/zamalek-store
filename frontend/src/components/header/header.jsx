@@ -1,19 +1,56 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import Logo from "./logo";
-import Search from "./search";
-import Shopping_mode from "./shoping-mode";
-import { useDispatch, useSelector } from "react-redux";
+import Navbar from "./navbar";
+import Links from "./links";
 
 function Header() {
-  let state = useSelector((state) => state.setting);
+  const location = useLocation();
+  const isHomeRoute = location.pathname === "/";
+  const [hovered, setHovered] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setHovered(window.scrollY > 60);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  const headerClasses = `fixed z-40 w-full duration-500 ${
+    isHomeRoute
+      ? hovered
+        ? "bg-white text-black"
+        : "hover:bg-white text-white hover:text-black"
+      : "bg-white text-black"
+  }`;
+
+  const handleMouseEnter = () => {
+    setHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setHovered(false);
+  };
+
   return (
-    <div className=" relative w-full h-20 flex justify-center   ">
-      <div className="header h-20 flex items-center justify-between py-2 fixed top-0 container  w-full  bg-white dark:bg-[#1F1F1F] shadow   ">
-        <Logo />
-        <Search />
-        <Shopping_mode />
+    <header
+      className={headerClasses}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      <div className="py-2 flex gap-2 container md:gap-20 items-center justify-between m-auto">
+        <Logo hovered={hovered} isHomeRoute={isHomeRoute} />
+        <div className="hidden md:block">
+          <Links />
+        </div>
+        <Navbar />
       </div>
-    </div>
+    </header>
   );
 }
 

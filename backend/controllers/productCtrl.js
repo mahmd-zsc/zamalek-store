@@ -52,6 +52,7 @@ const createProduct = asyncHandler(async (req, res) => {
     tags: req.body.tags,
     type: req.body.type,
     color: req.body.color,
+    discountPrice: req.body.discountPrice,
     image: {
       url: result.secure_url,
       publicId: result.public_id,
@@ -163,7 +164,6 @@ const getAllProducts = asyncHandler(async (req, res) => {
 
   res.status(200).json(products);
 });
-
 
 /**
  * @desc Update the image Product By Id

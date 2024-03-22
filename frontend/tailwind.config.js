@@ -8,18 +8,16 @@ module.exports = {
         DEFAULT: "1rem",
         sm: "2rem",
         lg: "4rem",
-        xl: "8rem",
+        xl: "6rem",
         "2xl": "10rem",
       },
     },
     extend: {
       colors: {
-        mainRed: "#FF141D",
-        mainBlack: "#232323",
+        darkColor: "#4D4D4D",
+        mainRed: "#DB1F24",
       },
     },
   },
-
   plugins: [],
-  darkMode: "class",
 };

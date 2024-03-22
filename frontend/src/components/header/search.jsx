@@ -1,17 +1,24 @@
-import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { useEffect } from "react";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
-function Search() {
+function Search({ onCancel }) {
+  useEffect(() => {
+    AOS.init();
+    // Apply styles to prevent scrolling
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      // Remove styles when component unmounts
+      document.body.style.overflow = "visible";
+    };
+  }, []);
+
   return (
-    <div class="pt-2 relative mx-auto text-gray-600 flex-1 flex justify-center ">
-      <input
-        class="border-2 border-mainBlack dark:border-gray-400 bg-transparent h-10 px-5  rounded-sm text-sm focus:outline-none w-1/2 caret-mainRed duration-500 focus:w-[80%]"
-        type="search"
-        name="search"
-        placeholder="Search"
-      />
-      <button type="submit" class="absolute right-0 top-0 mt-5 mr-4"></button>
-    </div>
+    <div
+      className={`search-container h-40 w-full bg-white absolute left-0 top-full`}
+      data-aos="fade-down" // Add data-aos attribute here
+    ></div>
   );
 }
 

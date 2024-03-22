@@ -63,8 +63,13 @@ const productSchema = new mongoose.Schema(
     },
     color: {
       type: String,
-      required: true, // Make color field required
+      required: true,
       trim: true,
+    },
+    discountPrice: {
+      type: Number,
+      default: null,
+      min: 0,
     },
   },
   {
@@ -118,7 +123,8 @@ const createProductValidation = (product) => {
       .required()
       .trim()
       .regex(/^[0-9a-fA-F]{24}$/),
-    color: joi.string().required().trim(), // Make color required
+    color: joi.string().required().trim(),
+    discountPrice: joi.number().min(0).default(null),
   });
 
   return schema.validate(product);
@@ -156,7 +162,8 @@ const updateProductValidation = (obj) => {
         .string()
         .trim()
         .regex(/^[0-9a-fA-F]{24}$/),
-      color: joi.string().trim(), // Validation for color property
+      color: joi.string().trim(),
+      discountPrice: joi.number().min(0),
     })
     .min(1);
 

@@ -8,11 +8,11 @@ const cartSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
-    items: [
+    cart: [
       {
         product: {
           type: mongoose.Schema.Types.ObjectId,
-          ref: "CardProduct", // Assuming you have a "CardProduct" model
+          ref: "Product",
           required: true,
         },
         quantity: {
@@ -33,6 +33,22 @@ const cartSchema = new mongoose.Schema(
       default: 0,
     },
     totalPrice: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
+    subtotal: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
+    discount: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
+
+    total: {
       type: Number,
       default: 0,
       min: 0,
@@ -65,6 +81,9 @@ const createCartValidation = (cart) => {
     ),
     totalQuantity: joi.number().default(0),
     totalPrice: joi.number().default(0).min(0),
+    subtotal: joi.number().default(0).min(0),
+    discount: joi.number().default(0).min(0),
+    total: joi.number().default(0).min(0),
   });
 
   return schema.validate(cart);
@@ -81,6 +100,9 @@ const updateCartValidation = (obj) => {
     ),
     totalQuantity: joi.number(),
     totalPrice: joi.number().min(0),
+    subtotal: joi.number().min(0),
+    discount: joi.number().min(0),
+    total: joi.number().min(0),
   });
 
   return schema.validate(obj);
