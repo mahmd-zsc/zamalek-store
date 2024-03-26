@@ -16,8 +16,8 @@ function Search({ onCancel }) {
 
   return (
     <div
-      className={`search-container h-40 w-full bg-white absolute left-0 top-full`}
-      data-aos="fade-down" // Add data-aos attribute here
+      className={`search-container h-40 w-full  bg-mainRed absolute left-0 top-0 z-50`}
+      data-aos="fade-down" 
     ></div>
   );
 }

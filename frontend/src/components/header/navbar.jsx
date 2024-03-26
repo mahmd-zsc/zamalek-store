@@ -4,10 +4,14 @@ import {
   faSearch,
   faUser,
   faShoppingCart,
+  faBars,
+  faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 import Search from "./search";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import Menu from "./menu";
+import Cart from "./cart";
 
 function Navbar() {
   useEffect(() => {
@@ -15,9 +19,24 @@ function Navbar() {
   }, []);
 
   const [showSearch, setShowSearch] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
+  const [showCart, setShowCart] = useState(false);
 
   const toggleSearch = () => {
-    setShowSearch(!showSearch);
+    setShowSearch(true);
+  };
+
+  const toggleShowMenu = () => {
+    setShowMenu(true);
+  };
+  const toggleHiddenMenu = () => {
+    setShowMenu(false);
+  };
+  const toggleShowCart = () => {
+    setShowCart(true);
+  };
+  const toggleHiddenCart = () => {
+    setShowCart(false);
   };
 
   const menuItems = [
@@ -26,29 +45,32 @@ function Navbar() {
     {
       name: "Cart",
       icon: faShoppingCart,
-      onClick: () => console.log("Cart clicked"),
+      onClick: toggleShowCart,
     },
+    { name: "Menu", icon: faBars, onClick: toggleShowMenu },
   ];
 
   return (
     <div>
       {showSearch && <Search onCancel={toggleSearch} />}
-      {!showSearch && (
-        <ul className="flex gap-4 justify-end">
-          {menuItems.map((item, index) => (
-            <li
-              className={`${item.name === "User" ? "hidden sm:block" : null}`}
-              key={index}
-            >
-              <FontAwesomeIcon
-                icon={item.icon}
-                className="w-6 cursor-pointer opacity-85 hover:opacity-100 duration-150 relative hover:-translate-y-1"
-                onClick={item.onClick}
-              />
-            </li>
-          ))}
-        </ul>
-      )}
+      <ul className="flex gap-4 justify-end">
+        {menuItems.map((item, index) => (
+          <li
+            key={index}
+            className={`${item.name === "User" ? "hidden md:block" : null} ${
+              item.name === "Menu" ? "md:hidden" : null
+            }`}
+          >
+            <FontAwesomeIcon
+              icon={item.icon}
+              className="w-6 cursor-pointer opacity-85 hover:opacity-100 duration-150 relative hover:-translate-y-1"
+              onClick={item.onClick}
+            />
+          </li>
+        ))}
+      </ul>
+      <Menu showMenu={showMenu} toggleHiddenMenu={toggleHiddenMenu} />
+      <Cart showCart={showCart} toggleHiddenCart={toggleHiddenCart} />
     </div>
   );
 }

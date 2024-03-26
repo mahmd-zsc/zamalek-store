@@ -1,17 +1,31 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import Logo from "./logo";
 import Navbar from "./navbar";
 import Links from "./links";
+import Menu from "./menu";
 
 function Header() {
   const location = useLocation();
   const isHomeRoute = location.pathname === "/";
   const [hovered, setHovered] = useState(false);
+  const navbarRef = useRef(null);
 
   useEffect(() => {
+    let lastScrollTop = 0;
+
     const handleScroll = () => {
       setHovered(window.scrollY > 60);
+      const scrollTop =
+        window.pageYOffset || document.documentElement.scrollTop;
+      const navbar = navbarRef.current;
+
+      if (scrollTop <= lastScrollTop || scrollTop < 80) {
+        navbar.style.transform = "translateY(0)";
+      } else {
+        navbar.style.transform = "translateY(-100%)";
+      }
+      lastScrollTop = scrollTop;
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -39,6 +53,7 @@ function Header() {
 
   return (
     <header
+      ref={navbarRef}
       className={headerClasses}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
