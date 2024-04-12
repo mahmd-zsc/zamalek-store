@@ -1,9 +1,10 @@
 // Home.js
 import React from "react";
-import Landing from "./landing/landing";
-import FirstSection from "./firstSection/firstSection";
-import BlackLeisure from "./blackLeisure/blackLeisure";
-import BasketBall from "./basketBall/basketBall";
+import Landing from "./landing";
+import FirstSection from "./firstSection";
+import BlackLeisure from "./blackLeisure";
+import BasketBall from "./basketBall";
+
 
 function Home() {
   return (

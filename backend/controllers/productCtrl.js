@@ -102,20 +102,17 @@ const updateProduct = asyncHandler(async (req, res) => {
 });
 
 /**
- * @desc Get a product by ID
- * @route GET /api/products/:id
+ * @desc Get a product by name
+ * @route GET /api/products/name/:name
  * @access Public
  */
-const getProductById = asyncHandler(async (req, res) => {
-  const productId = req.params.id;
+const getProductByName = asyncHandler(async (req, res) => {
+  const productName = req.params.name;
 
-  if (!mongoose.Types.ObjectId.isValid(productId)) {
-    return res.status(400).json({ message: "Invalid product ID format" });
-  }
-
-  const product = await Product.findById(productId)
+  const product = await Product.findOne({ name: productName })
     .populate("category")
     .populate("type");
+
   if (!product) {
     return res.status(404).json({ message: "Product not found" });
   }
@@ -124,13 +121,22 @@ const getProductById = asyncHandler(async (req, res) => {
 });
 
 /**
- * @desc Get all products
+ * @desc Get all products with pagination and sorting
  * @route GET /api/products
  * @access Public
  */
 const getAllProducts = asyncHandler(async (req, res) => {
-  const { price_min, price_max, sizes, category, type, brand, color } =
-    req.query;
+  const {
+    price_min,
+    price_max,
+    sizes,
+    category,
+    type,
+    brand,
+    color,
+    page = 1,
+    sort,
+  } = req.query;
 
   let filters = {};
 
@@ -158,11 +164,63 @@ const getAllProducts = asyncHandler(async (req, res) => {
     filters.color = color;
   }
 
-  const products = await Product.find(filters)
-    .populate("category")
-    .populate("type");
+  // Define sort options based on the sort query parameter
+  let sortOptions = {};
+  if (sort) {
+    switch (sort) {
+      case "featured":
+        // Define your logic for sorting by featured products
+        break;
+      case "best_selling":
+        // Define your logic for sorting by best-selling products
+        break;
+      case "alphabetically_asc":
+        sortOptions.name = 1;
+        break;
+      case "alphabetically_desc":
+        sortOptions.name = -1;
+        break;
+      case "price_asc":
+        sortOptions.price = 1;
+        break;
+      case "price_desc":
+        sortOptions.price = -1;
+        break;
+      case "date_old_to_new":
+        sortOptions.date = 1;
+        break;
+      case "date_new_to_old":
+        sortOptions.date = -1;
+        break;
+      default:
+        break;
+    }
+  }
 
-  res.status(200).json(products);
+  // Calculate skip value for pagination
+  const limit = 20; // Number of products per page
+  const skip = (page - 1) * limit;
+
+  // Query products for the current page
+  const data = await Product.find(filters)
+    .populate("category")
+    .populate("type")
+    .sort(sortOptions) // Apply sorting options
+    .limit(limit)
+    .skip(skip);
+
+  // Find total count of products matching the filters
+  const totalCount = await Product.countDocuments(filters);
+
+  // Calculate total number of pages
+  const totalPages = Math.ceil(totalCount / limit);
+
+  // Return products, total pages, and total count in the response
+  res.status(200).json({
+    data,
+    totalPages,
+    totalCount,
+  });
 });
 
 /**
@@ -205,7 +263,7 @@ module.exports = {
   createProduct,
   deleteProduct,
   updateProduct,
-  getProductById,
+  getProductByName,
   getAllProducts,
   updateImageProductById,
 };

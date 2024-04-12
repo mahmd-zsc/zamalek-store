@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import players from "../../../images/download 4.png";
+import players from "../../images/download 4.png";
 import AOS from "aos";
 import "aos/dist/aos.css";
 

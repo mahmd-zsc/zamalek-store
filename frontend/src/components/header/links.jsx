@@ -6,7 +6,7 @@ function Links() {
     { name: "Home", link: "/" },
     { name: "Shop", link: "/shop" },
     { name: "Sale%", link: "/sale" },
-    // { name: "administrator", link: "/administrator" },
+    { name: "Dashboard", link: "/dashboard" },
   ];
   const location = useLocation();
 

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
-import backgroundImage from "../../../images/black-plain-concrete-textured.jpg";
-import people from "../../../images/Remove-bg.ai_1710858884778.png";
+import backgroundImage from "../../images/black-plain-concrete-textured.jpg";
+import people from "../../images/Remove-bg.ai_1710858884778.png";
 import AOS from "aos";
 import "aos/dist/aos.css";
 

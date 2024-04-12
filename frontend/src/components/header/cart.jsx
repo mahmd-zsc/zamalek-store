@@ -44,17 +44,15 @@ function Cart({ toggleHiddenCart, showCart }) {
           showCart ? "w-[80%] sm:w-1/2 md:w-1/3  px-4" : "w-0"
         }`}
       >
-        {showCart && (
-          <div className=" flex justify-between items-center w-full">
-            <h5 className=" text-2xl">Cart</h5>
-            <FontAwesomeIcon
-              icon={faTimes}
-              size="lg"
-              className=" cursor-pointer text-gray-600 hover:text-gray-900 duration-500 rotate-90 hover:rotate-0"
-              onClick={toggleHiddenCart}
-            />
-          </div>
-        )}
+        <div className=" flex justify-between items-center w-full">
+          <h5 className=" text-2xl">Cart</h5>
+          <FontAwesomeIcon
+            icon={faTimes}
+            size="lg"
+            className=" cursor-pointer text-gray-600 hover:text-gray-900 duration-500 rotate-90 hover:rotate-0"
+            onClick={toggleHiddenCart}
+          />
+        </div>
       </div>
     </>
   );
