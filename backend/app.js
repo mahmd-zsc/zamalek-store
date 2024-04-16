@@ -18,8 +18,6 @@ app.use(cors());
 app.use(`${process.env.API_VERSION}categories/`, require("./routes/category"));
 app.use(`${process.env.API_VERSION}sizes/`, require("./routes/size"));
 app.use(`${process.env.API_VERSION}products/`, require("./routes/product"));
-app.use(`${process.env.API_VERSION}reviews/`, require("./routes/review"));
-app.use(`${process.env.API_VERSION}types/`, require("./routes/type"));
 app.use(`${process.env.API_VERSION}brands/`, require("./routes/brand"));
 app.use(`${process.env.API_VERSION}users/`, require("./routes/user")); // Add the user route
 app.use(`${process.env.API_VERSION}auth/`, require("./routes/auth")); // Add the auth route

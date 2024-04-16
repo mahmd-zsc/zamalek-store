@@ -2,9 +2,9 @@
 
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchProducts } from "../../../redux/slices/productSlice";
 import { Link } from "react-router-dom";
 import BoxProduct from "./boxProduct"; // Importing BoxProduct component
+import { fetchProducts } from "../../../redux/products/productAction";
 
 const Products = () => {
   const dispatch = useDispatch();

@@ -7,18 +7,16 @@ import "aos/dist/aos.css";
 import Logo from "./logo";
 import zsc from "../../images/zamalek-sports-club-seeklogo.png";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function Menu({ toggleHiddenMenu, showMenu }) {
+  let { user } = useSelector((state) => state.auth);
   const menuRef = useRef(null);
   const links = [
     { name: "Home", link: "/" },
     { name: "Shop", link: "/shop" },
     { name: "Sale%", link: "/sale" },
     // { name: "administrator", link: "/administrator" },
-  ];
-  const smallLink = [
-    { name: "Login", link: "/login" },
-    { name: "register", link: "/register" },
   ];
 
   useEffect(() => {
@@ -85,17 +83,35 @@ function Menu({ toggleHiddenMenu, showMenu }) {
             ))}
           </ul>
           <ul className="flex  md:flex-row flex-col text-sm text-gray-700 gap-2 pt-6  ">
-            {smallLink.map((linkItem, index) => (
+            {user ? (
               <li
-                key={index}
                 className={` relative uppercase tracking-wider  overflow-hidden cursor-pointer `}
                 onClick={toggleHiddenMenu}
               >
-                <Link className=" w-full " to={linkItem.link}>
-                  {linkItem.name}
+                <Link className=" w-full " to="/profile">
+                  My Account
                 </Link>
               </li>
-            ))}
+            ) : (
+              <>
+                <li
+                  className={` relative uppercase tracking-wider  overflow-hidden cursor-pointer `}
+                  onClick={toggleHiddenMenu}
+                >
+                  <Link className=" w-full " to="/login">
+                    Login
+                  </Link>
+                </li>
+                <li
+                  className={` relative uppercase tracking-wider  overflow-hidden cursor-pointer `}
+                  onClick={toggleHiddenMenu}
+                >
+                  <Link className=" w-full " to="/register">
+                    Register
+                  </Link>
+                </li>
+              </>
+            )}
           </ul>
         </>
       </div>

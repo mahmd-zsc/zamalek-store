@@ -1,37 +1,93 @@
+// App.jsx
+
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Home from "./components/home/home";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import Home from "./pages/home/home";
 import Header from "./components/header/header";
 import Footer from "./components/footer/footer";
-import "./styles/App.css";
-import Shop from "./components/shop/shop";
 import Product from "./components/product/product";
-import Dashboard from "./components/Dashboard/dashboard";
-import DashboardHome from "./components/Dashboard/DashboardHome";
-import DashboardUsers from "./components/Dashboard/DashboardUsers";
-import DashboardProducts from "./components/Dashboard/DashboardProducts";
-import DashboardSizes from "./components/Dashboard/DashboardSizes";
-import DashboardCategories from "./components/Dashboard/DashboardCategories";
-import DashboardOrders from "./components/Dashboard/DashboardOrders";
-import DashboardSupport from "./components/Dashboard/DashboardSupport";
-
+import Dashboard from "./pages/admin/dashboard";
+import DashboardHome from "./pages/admin/DashboardHome";
+import DashboardUsers from "./pages/admin/DashboardUsers";
+import DashboardProducts from "./pages/admin/DashboardProducts";
+import DashboardSizes from "./pages/admin/DashboardSizes";
+import DashboardCategories from "./pages/admin/DashboardCategories";
+import DashboardOrders from "./pages/admin/DashboardOrders";
+import DashboardSupport from "./pages/admin/DashboardSupport";
+import { useSelector } from "react-redux";
+import Shop from "./pages/shop/shop";
+import Login from "./pages/forms/login";
+import Register from "./pages/forms/register";
+import "./App.css";
+import Profile from "./pages/profile/profile";
 function App() {
+  let { user } = useSelector((state) => state.auth);
+
   return (
-    <div className="App overflow-hidden">
+    <div className="App min-h-screen  overflow-hidden">
       <Router>
         <Header />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/shop" element={<Shop />} />
+          <Route
+            path="/login"
+            element={user ? <Navigate to="/" /> : <Login />}
+          />
+          <Route
+            path="/register"
+            element={user ? <Navigate to="/" /> : <Register />}
+          />
+          <Route
+            path="/profile"
+            element={!user ? <Navigate to="/login" /> : <Profile />}
+          />
           <Route path="/shop/products/:id" element={<Product />} />
-          <Route path="/dashboard/*" element={<Dashboard />}>
-            <Route index element={<DashboardHome />} />
-            <Route path="users" element={<DashboardUsers />} />
-            <Route path="products" element={<DashboardProducts />} />
-            <Route path="sizes" element={<DashboardSizes />} />
-            <Route path="categories" element={<DashboardCategories />} />
-            <Route path="orders" element={<DashboardOrders />} />
-            <Route path="support" element={<DashboardSupport />} /> */}
+          <Route
+            path="/dashboard/*"
+            element={user?.isAdmin ? <Dashboard /> : <Navigate to="/" />}
+          >
+            <Route
+              index
+              element={user?.isAdmin ? <DashboardHome /> : <Navigate to="/" />}
+            />
+            <Route
+              path="users"
+              element={user?.isAdmin ? <DashboardUsers /> : <Navigate to="/" />}
+            />
+            <Route
+              path="products"
+              element={
+                user?.isAdmin ? <DashboardProducts /> : <Navigate to="/" />
+              }
+            />
+            <Route
+              path="sizes"
+              element={user?.isAdmin ? <DashboardSizes /> : <Navigate to="/" />}
+            />
+            <Route
+              path="categories"
+              element={
+                user?.isAdmin ? <DashboardCategories /> : <Navigate to="/" />
+              }
+            />
+            <Route
+              path="orders"
+              element={
+                user?.isAdmin ? <DashboardOrders /> : <Navigate to="/" />
+              }
+            />
+            <Route
+              path="support"
+              element={
+                user?.isAdmin ? <DashboardSupport /> : <Navigate to="/" />
+              }
+            />
           </Route>
         </Routes>
         <Footer />

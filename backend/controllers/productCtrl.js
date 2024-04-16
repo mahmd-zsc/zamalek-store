@@ -9,7 +9,6 @@ const {
   updateProductValidation,
 } = require("../models/Product");
 const { Category } = require("../models/Category");
-const { Type } = require("../models/Type");
 const {
   cloudinaryUploadImage,
   cloudinaryRemoveImage,
@@ -32,8 +31,6 @@ const createProduct = asyncHandler(async (req, res) => {
   let isCategory = await Category.findById(req.body.category);
   if (!isCategory)
     return res.status(400).json({ massage: "category is no found" });
-  let isType = await Type.findById(req.body.type);
-  if (!isType) return res.status(400).json({ massage: "type is no found" });
 
   // Handle image upload
   const imagePath = path.join(__dirname, `../images/${req.file.filename}`);
@@ -50,7 +47,6 @@ const createProduct = asyncHandler(async (req, res) => {
     ratings: req.body.ratings,
     reviews: req.body.reviews,
     tags: req.body.tags,
-    type: req.body.type,
     color: req.body.color,
     discountPrice: req.body.discountPrice,
     image: {
@@ -111,7 +107,6 @@ const getProductByName = asyncHandler(async (req, res) => {
 
   const product = await Product.findOne({ name: productName })
     .populate("category")
-    .populate("type");
 
   if (!product) {
     return res.status(404).json({ message: "Product not found" });
@@ -131,7 +126,6 @@ const getAllProducts = asyncHandler(async (req, res) => {
     price_max,
     sizes,
     category,
-    type,
     brand,
     color,
     page = 1,
@@ -152,9 +146,7 @@ const getAllProducts = asyncHandler(async (req, res) => {
     filters.category = category;
   }
 
-  if (type) {
-    filters.type = type;
-  }
+
 
   if (brand) {
     filters.brand = brand;
@@ -204,7 +196,6 @@ const getAllProducts = asyncHandler(async (req, res) => {
   // Query products for the current page
   const data = await Product.find(filters)
     .populate("category")
-    .populate("type")
     .sort(sortOptions) // Apply sorting options
     .limit(limit)
     .skip(skip);

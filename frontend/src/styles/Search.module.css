@@ -1,8 +1,0 @@
-.search-container {
-  display: none;
-  transition: all 0.3s ease;
-}
-
-.search-container.visible {
-  display: block;
-}

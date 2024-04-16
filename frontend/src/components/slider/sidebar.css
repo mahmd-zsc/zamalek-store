@@ -1,0 +1,5 @@
+.sidebar .active {
+  background-color: #db1f24;
+  color: white;
+  border-radius: 10px;
+}

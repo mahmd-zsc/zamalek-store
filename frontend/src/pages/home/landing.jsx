@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import backgroundImage from "../../images/download.jpg";
-import "../../styles/shopNow.css";
+import "./shopNow.css";
 import AOS from "aos";
 import "aos/dist/aos.css";
 

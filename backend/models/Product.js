@@ -56,11 +56,6 @@ const productSchema = new mongoose.Schema(
         trim: true,
       },
     ],
-    type: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Type",
-      required: true,
-    },
     color: {
       type: String,
       required: true,
@@ -80,11 +75,6 @@ const productSchema = new mongoose.Schema(
 );
 
 // Define a virtual field for reviews
-productSchema.virtual("reviews", {
-  ref: "Review",
-  foreignField: "productId",
-  localField: "_id",
-});
 
 const Product = mongoose.model("Product", productSchema);
 
@@ -104,19 +94,7 @@ const createProductValidation = (product) => {
     }),
     brand: joi.string().trim(),
     ratings: joi.number().min(0).max(5),
-    reviews: joi.array().items(
-      joi.object({
-        user: joi.string().required(),
-        text: joi.string(),
-        rating: joi.number().min(1).max(5),
-        comments: joi.array().items(
-          joi.object({
-            user: joi.string().required(),
-            text: joi.string(),
-          })
-        ),
-      })
-    ),
+
     tags: joi.array().items(joi.string().trim()),
     type: joi
       .string()
@@ -144,19 +122,7 @@ const updateProductValidation = (obj) => {
       }),
       brand: joi.string().trim(),
       ratings: joi.number().min(0).max(5),
-      reviews: joi.array().items(
-        joi.object({
-          user: joi.string(),
-          text: joi.string(),
-          rating: joi.number().min(1).max(5),
-          comments: joi.array().items(
-            joi.object({
-              user: joi.string(),
-              text: joi.string(),
-            })
-          ),
-        })
-      ),
+
       tags: joi.array().items(joi.string().trim()),
       type: joi
         .string()

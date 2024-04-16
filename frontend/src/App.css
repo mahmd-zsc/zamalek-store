@@ -1,6 +1,6 @@
 @font-face {
   font-family: fly;
-  src: url("../Blockletter.otf");
+  src: url("./fonts/Blockletter.otf");
 }
 body {
   font-family: fly;

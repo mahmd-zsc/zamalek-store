@@ -12,8 +12,12 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import Menu from "./menu";
 import Cart from "./cart";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function Navbar() {
+  let { user } = useSelector((state) => state.auth);
+  let navigate = useNavigate();
   useEffect(() => {
     AOS.init();
   }, []);
@@ -41,7 +45,11 @@ function Navbar() {
 
   const menuItems = [
     { name: "Search", icon: faSearch, onClick: toggleSearch },
-    { name: "User", icon: faUser, onClick: () => console.log("User clicked") },
+    {
+      name: "User",
+      icon: faUser,
+      onClick: () => (user ? navigate("/profile") : navigate("/login")),
+    },
     {
       name: "Cart",
       icon: faShoppingCart,

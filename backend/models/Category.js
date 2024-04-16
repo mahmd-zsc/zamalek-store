@@ -22,11 +22,7 @@ const categorySchema = new mongoose.Schema(
     toObject: { virtuals: true },
   }
 );
-categorySchema.virtual("types", {
-  ref: "Type",
-  foreignField: "category",
-  localField: "_id",
-});
+
 categorySchema.virtual("products", {
   ref: "Product",
   foreignField: "category",

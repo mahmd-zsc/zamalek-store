@@ -34,6 +34,7 @@ const register = asyncHandler(async (req, res) => {
 
   // Save the user to the database
   const savedUser = await newUser.save();
+  let token = savedUser.generateAuthToken();
 
   res.status(201).json(savedUser);
 });
@@ -44,10 +45,10 @@ const register = asyncHandler(async (req, res) => {
  * @access Public
  */
 const login = asyncHandler(async (req, res) => {
-  const { username, password } = req.body;
+  const { email, password } = req.body;
 
   // Check if the user exists
-  const user = await User.findOne({ username });
+  const user = await User.findOne({ email });
   if (!user) {
     return res.status(401).json({ message: "Invalid credentials" });
   }
@@ -57,11 +58,16 @@ const login = asyncHandler(async (req, res) => {
   if (!passwordMatch) {
     return res.status(401).json({ message: "Invalid credentials" });
   }
+  let token = user.generateAuthToken();
 
-  res.status(200).json({
-    message: "Login successful",
-    user: { id: user._id, username: user.username, email: user.email },
-  });
+  res
+    .status(200)
+    .json({
+      id: user._id,
+      username: user.username,
+      isAdmin: user.isAdmin,
+      token,
+    });
 });
 
 // Add other authentication-related controller functions as needed

@@ -19,21 +19,12 @@ const productSlice = createSlice({
     loading: false,
     error: null,
   },
-  reducers: {},
-  extraReducers: (builder) => {
-    builder
-      .addCase(fetchProducts.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(fetchProducts.fulfilled, (state, action) => {
-        state.loading = false;
-        state.products = action.payload;
-      })
-      .addCase(fetchProducts.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.error.message;
-      });
+  reducers: {
+    fetchProduct: (state, action) => {
+      state.products = action.payload;
+    },
   },
 });
 
-export default productSlice.reducer;
+export let productReducer = productSlice.reducer;
+export let productActions = productSlice.actions;

@@ -1,7 +1,7 @@
 import React from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import "../../styles/sidebar.css";
+import "./sidebar.css";
 import {
   faChartBar,
   faUsers,
@@ -11,20 +11,6 @@ import {
   faClipboardList,
   faHeadset,
 } from "@fortawesome/free-solid-svg-icons";
-
-const SidebarItem = ({ icon, text, to, isActive }) => {
-  return (
-    <li className={isActive ? "active" : ""}>
-      <NavLink
-        to={to}
-        activeClassName="bg-mainRed text-white"
-        className="flex items-center py-4 px-8 gap-6 hover:scale-110 text-gray-600 rounded-lg hover:text-white hover:bg-mainRed duration-500"
-      >
-        <FontAwesomeIcon icon={icon} /> {text}
-      </NavLink>
-    </li>
-  );
-};
 
 const Sidebar = () => {
   const { pathname } = useLocation();
@@ -37,18 +23,24 @@ const Sidebar = () => {
     { icon: faClipboardList, text: "Orders", to: "/dashboard/orders" },
     { icon: faHeadset, text: "Support", to: "/dashboard/support" },
   ];
+  console.log(pathname === sidebarItems[0].to);
 
   return (
-    <div className="sidebar h-screen left-0 top-20 hidden md:block">
+    <div className="sidebar h-screen left-0 top-20 hidden md:block  ">
       <ul className="sidebar-nav grid gap-2 m-4">
-        {sidebarItems.map((item, index) => (
-          <SidebarItem
+        {sidebarItems.map(({ icon, text, to }, index) => (
+          <li
             key={index}
-            icon={item.icon}
-            text={item.text}
-            to={item.to}
-            isActive={pathname !== item.to && pathname.startsWith(item.to)}
-          />
+            onClick={() => console.log(to)}
+            className={pathname === to ? "active " : "null"}
+          >
+            <Link
+              to={to}
+              className="flex items-center   py-4 px-8 gap-6 hover:scale-110  rounded-lg hover:text-white hover:bg-mainRed duration-500"
+            >
+              <FontAwesomeIcon icon={icon} /> {text}
+            </Link>
+          </li>
         ))}
       </ul>
     </div>
