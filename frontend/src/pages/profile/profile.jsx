@@ -29,8 +29,18 @@ function Profile() {
   return (
     profile.profile && (
       <div className="container h-full mt-32 md:mt-40">
-        <div className="mb-20" data-aos="fade-up">
-          <h1 className="text-3xl md:text-5xl">My Account</h1>
+        <div className="mb-20 flex md:items-center justify-between flex-col md:flex-row ">
+          <h1 data-aos="fade-right" className="text-3xl md:text-5xl">
+            My Account
+          </h1>
+          <button
+            onClick={() => navigate("edit-profile")}
+            data-aos="fade-left"
+            className="shopNowSecondBlack bg-black px-4 py-2 rounded-xl mt-2 border-2 border-black my-2 w-fit"
+          >
+            <span className="button-text">edit profile</span>
+            <div className="fill-container"></div>
+          </button>
         </div>
         <div className="flex flex-col gap-4 md:flex-row min-h-[400px]">
           <div className="w-full" data-aos="fade-right">
@@ -47,10 +57,10 @@ function Profile() {
             <p className="font-mono">{profile.profile.email}</p>
           </div>
         </div>
+
         <button
           onClick={logoutHandler}
           className="shopNowSecondBlack bg-black px-4 py-2 rounded-2xl mt-2 border-2 border-black my-2"
-          data-aos="fade-up"
         >
           <span className="button-text">logout</span>
           <div className="fill-container"></div>

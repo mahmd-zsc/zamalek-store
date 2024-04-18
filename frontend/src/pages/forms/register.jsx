@@ -14,7 +14,7 @@ const Register = () => {
   }, []);
 
   const dispatch = useDispatch();
-  let { error } = useSelector((state) => state.auth);
+  let { registerError } = useSelector((state) => state.auth);
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -72,9 +72,9 @@ const Register = () => {
             </span>
           </p>
         </div>
-        {error && (
+        {registerError && (
           <div className="bg-red-300 w-full text-center py-1 mb-2 rounded-md text-red-500 font-sans border-2 border-red-400 opacity-80 hover: duration-200">
-            {error.message}
+            {registerError.message}
           </div>
         )}
         <form onSubmit={handleSubmit} className="space-y-4 font-mono">
@@ -87,7 +87,6 @@ const Register = () => {
             className={`w-full px-8 py-4 border border-gray-300 rounded-md focus:outline-none ${
               usernameError ? "border-mainRed" : ""
             }`}
-            data-aos="fade-up"
           />
           <input
             placeholder={emailError ? "Email is required" : "Email"}
@@ -98,7 +97,6 @@ const Register = () => {
             className={`w-full px-8 py-4 border border-gray-300 rounded-md focus:outline-none ${
               emailError ? "border-mainRed" : ""
             }`}
-            data-aos="fade-up"
           />
           <input
             placeholder={passwordError ? "Password is required" : "Password"}
@@ -109,12 +107,10 @@ const Register = () => {
             className={`w-full px-8 py-4 border border-gray-300 rounded-md focus:outline-none ${
               passwordError ? "border-mainRed" : ""
             }`}
-            data-aos="fade-up"
           />
           <button
             type="submit"
             className="w-full shopNowSecondBlack bg-black px-4 py-2 rounded-md mt-2 border-2 border-black"
-            data-aos="fade-up"
           >
             <span className="button-text">create</span>
             <div className="fill-container"></div>

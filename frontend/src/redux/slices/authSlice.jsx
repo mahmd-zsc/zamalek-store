@@ -12,19 +12,22 @@ let authSlice = createSlice({
     registerError: null,
   },
   reducers: {
-    login: (state, action) => {
+    login(state, action) {
       state.user = action.payload;
     },
-    logout: (state, action) => {
+    logout(state, action) {
       state.user = null;
     },
-    makeLoginError: (state, action) => {
+    setUsername(state, action) {
+      state.user.username = action.payload;
+    },
+    makeLoginError(state, action) {
       state.loginError = action.payload;
     },
-    makeRegisterError: (state, action) => {
+    makeRegisterError(state, action) {
       state.registerError = action.payload;
     },
-    clearErrors: (state, action) => {
+    clearErrors(state, action) {
       state.loginError = null;
       state.registerError = null;
     },

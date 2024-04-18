@@ -64,7 +64,6 @@ const Login = () => {
         )}
         <form onSubmit={handleSubmit} className="w-full space-y-4 font-mono">
           <input
-            data-aos="fade-up"
             placeholder={emailError ? "Email is required" : "Email"}
             type="email"
             value={email}
@@ -76,7 +75,6 @@ const Login = () => {
             }`}
           />
           <input
-            data-aos="fade-up"
             placeholder={passwordError ? "Password is required" : "Password"}
             onChange={(p) => setPassword(p.target.value)}
             type="password"
@@ -92,7 +90,6 @@ const Login = () => {
           <button
             type="submit"
             className="w-full shopNowSecondBlack bg-black px-4 py-2 rounded-md mt-2 border-2 border-black"
-            data-aos="fade-up"
           >
             <span className="button-text">Login</span>
             <div className="fill-container"></div>

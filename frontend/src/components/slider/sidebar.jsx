@@ -10,6 +10,7 @@ import {
   faFolder,
   faClipboardList,
   faHeadset,
+  faCopyright,
 } from "@fortawesome/free-solid-svg-icons";
 
 const Sidebar = () => {
@@ -21,19 +22,15 @@ const Sidebar = () => {
     { icon: faRuler, text: "Sizes", to: "/dashboard/sizes" },
     { icon: faFolder, text: "Categories", to: "/dashboard/categories" },
     { icon: faClipboardList, text: "Orders", to: "/dashboard/orders" },
+    { icon: faCopyright, text: "brans", to: "/dashboard/brans" },
     { icon: faHeadset, text: "Support", to: "/dashboard/support" },
   ];
-  console.log(pathname === sidebarItems[0].to);
 
   return (
-    <div className="sidebar h-screen left-0 top-20 hidden md:block  ">
+    <div className="sidebar h-screen left-0 top-20 hidden lg:block  ">
       <ul className="sidebar-nav grid gap-2 m-4">
         {sidebarItems.map(({ icon, text, to }, index) => (
-          <li
-            key={index}
-            onClick={() => console.log(to)}
-            className={pathname === to ? "active " : "null"}
-          >
+          <li key={index} className={pathname === to ? "active " : "null"}>
             <Link
               to={to}
               className="flex items-center   py-4 px-8 gap-6 hover:scale-110  rounded-lg hover:text-white hover:bg-mainRed duration-500"

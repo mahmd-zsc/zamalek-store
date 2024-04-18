@@ -1,5 +1,6 @@
 import React from "react";
 import Filter from "../../components/filter/filter";
+import Products from "../../components/products/products";
 // import Products from "./products/products";
 
 function Shop() {
@@ -9,7 +10,7 @@ function Shop() {
         <div className=" hidden lg:block ">
           <Filter />
         </div>
-        {/* <Products /> */}
+        <Products />
       </div>
     </div>
   );

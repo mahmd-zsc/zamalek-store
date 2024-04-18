@@ -1,43 +1,41 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchProducts } from "../../redux/apiCalls/productApiCalls";
+import ProductTable from "../../components/productTable/productTable";
+import Loading from "../loading/loading";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 
 function DashboardProducts() {
-  // Dummy data for products (replace with actual data)
-  const products = [
-    { id: 1, name: "Product 1", price: "$10" },
-    { id: 2, name: "Product 2", price: "$20" },
-    { id: 3, name: "Product 3", price: "$30" },
-    // Add more products as needed
-  ];
+  const dispatch = useDispatch();
+  const { products, loading, error } = useSelector((state) => state.product);
+  let navigate = useNavigate();
+  useEffect(() => {
+    if (products.length === 0) {
+      dispatch(fetchProducts());
+    }
+  }, [dispatch]);
 
   return (
-    <div className="container mx-auto py-4">
-      <h1 className="text-2xl font-bold mb-4 text-blue-600">Products</h1>
+    <div>
+      {loading && (
+        <div>
+          <Loading />
+        </div>
+      )}
+      {error && <div>{error}</div>}
+      {products && products.data && products.data.length > 0 && (
+        <div className="  overflow-y-scroll ">
+          <ProductTable />
 
-      {/* Product List */}
-      <div className="bg-white p-4 rounded-lg shadow">
-        <h2 className="text-lg font-semibold mb-2 text-gray-800">
-          Product List
-        </h2>
-        <ul>
-          {products.map((product) => (
-            <li key={product.id} className="text-gray-700">
-              <span className="font-semibold">{product.name}</span> -{" "}
-              {product.price}
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      {/* Add Product Button */}
-      <div className="mt-4">
-        <Link
-          to="/dashboard/addProduct"
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-        >
-          Add Product
-        </Link>
-      </div>
+          <button
+            onClick={() => navigate("add-product")}
+            className=" mx-4 my-5 shopNowSecondBlack bg-black px-4 py-2 rounded-2xl mt-2 border-2 border-black"
+          >
+            <span className="button-text">add product</span>
+            <div className="fill-container"></div>
+          </button>
+        </div>
+      )}
     </div>
   );
 }

@@ -40,18 +40,28 @@ const updateUser = asyncHandler(async (req, res) => {
   }
 
   const userId = req.params.id;
+  
+  // Retrieve user before updating
+  let updatedUser = await User.findById(userId);
+  if (!updatedUser) {
+    return res.status(404).json({ message: "User not found" });
+  }
+  
+  // Update user data
+  if (req.body.password) {
+    let salt = await bcrypt.genSalt(10);
+    req.body.password = await bcrypt.hash(req.body.password, salt);
+  }
 
-  const updatedUser = await User.findByIdAndUpdate(
+  updatedUser = await User.findByIdAndUpdate(
     userId,
     { $set: req.body },
     { new: true }
   );
-  if (!updatedUser) {
-    return res.status(404).json({ message: "User not found" });
-  }
 
   res.status(200).json(updatedUser);
 });
+
 
 /**
  * @desc Delete user by ID

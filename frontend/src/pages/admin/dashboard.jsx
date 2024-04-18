@@ -5,9 +5,15 @@ import { Outlet } from "react-router-dom";
 
 function Dashboard() {
   return (
-    <div className="dashboard-container  mt-20 flex  container bg-gray-100">
+    <div
+      style={{ height: "calc(100vh - 72px - 168px)" }}
+      className="dashboard-container mt-20 flex container bg-gray-100 overflow-hidden"
+    >
       <Sidebar />
-      <div className="main-content m-4 p-0   w-full h-screen bg-white ">
+      <div
+       // Adjusted the scrollbar width here
+        className="main-content m-4 p-0 w-full bg-white overflow-y-scroll custom-scrollbar"
+      >
         <Outlet />
       </div>
     </div>

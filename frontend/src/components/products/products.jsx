@@ -4,14 +4,14 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import BoxProduct from "./boxProduct"; // Importing BoxProduct component
-import { fetchProducts } from "../../../redux/products/productAction";
+import { fetchProducts } from "../../redux/apiCalls/productApiCalls";
 
 const Products = () => {
   const dispatch = useDispatch();
-  const { products, loading, error } = useSelector((state) => state.products);
+  const { products, loading, error } = useSelector((state) => state.product);
   console.log(products);
   useEffect(() => {
-    dispatch(fetchProducts("http://localhost:3000/api/products"));
+    dispatch(fetchProducts());
   }, [dispatch]);
 
   if (loading) {
@@ -22,12 +22,8 @@ const Products = () => {
     return <div>Error: {error}</div>;
   }
 
-  const renderProducts = () => {
-    if (!products || !products.data || products.data.length === 0) {
-      return <div>No products found.</div>;
-    }
-
-    return (
+  return (
+    products.data && (
       <div className="flex-1 grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {products.data.map((product) => (
           <Link
@@ -38,10 +34,8 @@ const Products = () => {
           </Link>
         ))}
       </div>
-    );
-  };
-
-  return renderProducts();
+    )
+  );
 };
 
 export default Products;

@@ -16,8 +16,8 @@ const {
 router.get("/", verifyTokenAndAdmin, getAllUsers);
 
 // Route: Get user by ID
-router.get("/:id", getUserById);
-// router.get("/:id", verifyTokenAndAuthorization, getUserById);
+// router.get("/:id", getUserById);
+router.get("/:id", verifyTokenAndAuthorization, getUserById);
 
 // Route: Update user by ID
 router.put("/:id", verifyTokenAndAuthorization, updateUser);

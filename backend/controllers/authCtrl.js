@@ -34,9 +34,15 @@ const register = asyncHandler(async (req, res) => {
 
   // Save the user to the database
   const savedUser = await newUser.save();
+
+  // Generate authentication token
   let token = savedUser.generateAuthToken();
 
-  res.status(201).json(savedUser);
+  // Exclude _doc and $__ properties
+  const userResponse = savedUser.toJSON({ virtuals: true, getters: true });
+
+  // Send the response without _doc and $__ properties
+  res.status(201).json({ ...userResponse, token });
 });
 
 /**
@@ -60,14 +66,12 @@ const login = asyncHandler(async (req, res) => {
   }
   let token = user.generateAuthToken();
 
-  res
-    .status(200)
-    .json({
-      id: user._id,
-      username: user.username,
-      isAdmin: user.isAdmin,
-      token,
-    });
+  res.status(200).json({
+    id: user._id,
+    username: user.username,
+    isAdmin: user.isAdmin,
+    token,
+  });
 });
 
 // Add other authentication-related controller functions as needed

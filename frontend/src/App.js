@@ -10,7 +10,6 @@ import {
 import Home from "./pages/home/home";
 import Header from "./components/header/header";
 import Footer from "./components/footer/footer";
-import Product from "./components/product/product";
 import Dashboard from "./pages/admin/dashboard";
 import DashboardHome from "./pages/admin/DashboardHome";
 import DashboardUsers from "./pages/admin/DashboardUsers";
@@ -25,6 +24,10 @@ import Login from "./pages/forms/login";
 import Register from "./pages/forms/register";
 import "./App.css";
 import Profile from "./pages/profile/profile";
+import EditProfile from "./pages/profile/edit-profile";
+import DashboardAddProduct from "./pages/admin/DashboardAddProduct";
+import Product from "./pages/product/product";
+import DashboardEditProduct from "./pages/admin/DashboardEditProduct";
 function App() {
   let { user } = useSelector((state) => state.auth);
 
@@ -47,6 +50,10 @@ function App() {
             path="/profile"
             element={!user ? <Navigate to="/login" /> : <Profile />}
           />
+          <Route
+            path="/profile/edit-profile"
+            element={!user ? <Navigate to="/login" /> : <EditProfile />}
+          />
           <Route path="/shop/products/:id" element={<Product />} />
           <Route
             path="/dashboard/*"
@@ -64,6 +71,18 @@ function App() {
               path="products"
               element={
                 user?.isAdmin ? <DashboardProducts /> : <Navigate to="/" />
+              }
+            />
+            <Route
+              path="products/add-product"
+              element={
+                user?.isAdmin ? <DashboardAddProduct /> : <Navigate to="/" />
+              }
+            />
+            <Route
+              path="products/edit-product/:productId"
+              element={
+                user?.isAdmin ? <DashboardEditProduct /> : <Navigate to="/" />
               }
             />
             <Route

@@ -8,7 +8,11 @@ import { profileReducer } from "./slices/profileSlice ";
 
 // const store = createStore(rootReducer, applyMiddleware(thunk));
 const store = configureStore({
-  reducer: { auth: authReducer, profile: profileReducer },
+  reducer: {
+    auth: authReducer,
+    profile: profileReducer,
+    product: productReducer,
+  },
 });
 
 export default store;

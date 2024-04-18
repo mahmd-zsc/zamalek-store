@@ -1,7 +1,7 @@
 import React from "react";
 
 function Product() {
-  return <div>hello world</div>;
+  return <div>product</div>;
 }
 
 export default Product;
