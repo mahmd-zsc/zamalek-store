@@ -8,10 +8,14 @@ let profileSlice = createSlice({
     profile: null,
     loading: true,
     error: null,
+    profiles: [],
   },
   reducers: {
     setProfile(state, action) {
       state.profile = action.payload;
+    },
+    setProfiles(state, action) {
+      state.profiles = action.payload;
     },
     setLoading(state, action) {
       state.loading = action.payload;

@@ -1,6 +1,11 @@
 // brandCtrl.js
-
+const path = require("path");
+const fs = require("fs");
 const asyncHandler = require("express-async-handler");
+const {
+  cloudinaryUploadImage,
+  cloudinaryRemoveImage,
+} = require("../utils/cloudinary");
 const {
   Brand,
   createBrandValidation,
@@ -14,19 +19,28 @@ const {
  * @access Public
  */
 const createBrand = asyncHandler(async (req, res) => {
+  console.log(req.file);
+  if (!req.file) {
+    return res.status(400).json({ message: "No image provided" });
+  }
   const { error } = createBrandValidation(req.body);
   if (error) {
     return res.status(400).json({ message: error.details[0].message });
   }
-
+  const imagePath = path.join(__dirname, `../images/${req.file.filename}`);
+  const result = await cloudinaryUploadImage(imagePath);
   const brand = new Brand({
     name: req.body.name,
     description: req.body.description,
-    // Add more properties as needed
+    image: {
+      url: result.secure_url,
+      publicId: result.public_id,
+    },
   });
 
   const savedBrand = await brand.save();
   res.status(201).json(savedBrand);
+  fs.unlinkSync(imagePath);
 });
 
 /**
@@ -95,47 +109,51 @@ const getAllBrands = asyncHandler(async (req, res) => {
   res.status(200).json(brands);
 });
 
-
 /**
- * @desc Upload image
- * @router /api/brands//upload-image
- * @method Post
- * @access private (only himself)
+ * @desc Update the image brand By Id
+ * @router /api/brands/update-image/:id
+ * @method Put
+ * @access private (admin)
  */
-let uploadImageCtrl = asyncHandler(async (req, res) => {
-  //validate
+const updateImageBrandById = asyncHandler(async (req, res) => {
   if (!req.file) {
-    return res.status(400).json({ message: "No file provided" });
+    return res.status(404).json({ message: "Image file not found" });
   }
 
-  //get path of image
-  let imagePath = path.join(__dirname, `../images/${req.file.filename}`);
+  // let brand = await Brand.findById(req.params.id);
+  // if (!brand) {
+  //   return res.status(404).json({ message: "Brand not found" });
+  // }
 
-  //upload to cloudinary
-  let result = await cloudinaryUploadImage(imagePath);
+  // if (brand.image.publicId !== null) {
+  //   await cloudinaryRemoveImage(brand.image.publicId);
+  // }
 
-  //get the user from DB
-  let user = await User.findById(req.user.id);
+  // let imagePath = path.join(__dirname, `../images/${req.file.filename}`);
+  // let result = await cloudinaryUploadImage(imagePath);
 
-  // delete the old profile photo if exist
-  if (user.profilePhoto.publicId !== null) {
-    await cloudinaryRemoveImage(user.profilePhoto.publicId);
-  }
-  // change the profilePhoto field of user from DB
-  user.profilePhoto = {
-    url: result.secure_url,
-    publicId: result.public_id,
-  };
-  // save user changed in DB
-  await user.save();
-  // remove image file from image folder in the app
-  fs.unlinkSync(imagePath);
-  res.json({ message: "Upload image", image_url: result.url });
+  // brand.image = {
+  //   url: result.secure_url,
+  //   publicId: result.public_id,
+  // };
+
+  // // Add color update
+  // if (req.body.color) {
+  //   brand.color = req.body.color;
+  // }
+
+  // await brand.save(); // Ensure brand is saved before sending response
+  // fs.unlinkSync(imagePath); // Remove temporary image file
+
+  // return res.status(200).json(brand);
+  console.log("gg")
 });
+
 module.exports = {
   createBrand,
   updateBrand,
   deleteBrand,
   getBrandById,
   getAllBrands,
+  updateImageBrandById,
 };

@@ -21,14 +21,14 @@ const Sidebar = () => {
     { icon: faUsers, text: "Users", to: "/dashboard/users" },
     { icon: faRuler, text: "Sizes", to: "/dashboard/sizes" },
     { icon: faFolder, text: "Categories", to: "/dashboard/categories" },
+    { icon: faCopyright, text: "brans", to: "/dashboard/brands" },
     { icon: faClipboardList, text: "Orders", to: "/dashboard/orders" },
-    { icon: faCopyright, text: "brans", to: "/dashboard/brans" },
     { icon: faHeadset, text: "Support", to: "/dashboard/support" },
   ];
 
   return (
-    <div className="sidebar h-screen left-0 top-20 hidden lg:block  ">
-      <ul className="sidebar-nav grid gap-2 m-4">
+    <div className=" sidebar relative    hidden lg:block w-64 overflow-hidden  ">
+      <ul className="sidebar-nav   grid gap-2 m-4">
         {sidebarItems.map(({ icon, text, to }, index) => (
           <li key={index} className={pathname === to ? "active " : "null"}>
             <Link

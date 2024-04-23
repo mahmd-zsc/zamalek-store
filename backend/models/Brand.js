@@ -32,12 +32,10 @@ const createBrandValidation = (brand) => {
   const schema = joi.object({
     name: joi.string().required().trim(),
     description: joi.string().required(),
-    image: joi
-      .object({
-        url: joi.string().required(),
-        publicId: joi.string().required(),
-      })
-      .required(),
+    image: joi.object({
+      url: joi.string().required(),
+      publicId: joi.string().required(),
+    }),
   });
 
   return schema.validate(brand);

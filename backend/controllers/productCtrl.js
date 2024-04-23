@@ -38,17 +38,14 @@ const createProduct = asyncHandler(async (req, res) => {
 
   // Create a new product instance with the required fields, including color
   const product = new Product({
-    name: req.body.name,
+    title: req.body.title,
     description: req.body.description,
     price: req.body.price,
     sizes: req.body.sizes,
     category: req.body.category,
     brand: req.body.brand,
-    ratings: req.body.ratings,
-    reviews: req.body.reviews,
-    tags: req.body.tags,
     color: req.body.color,
-    discountPrice: req.body.discountPrice,
+    discount: req.body.discount,
     image: {
       url: result.secure_url,
       publicId: result.public_id,
@@ -58,10 +55,9 @@ const createProduct = asyncHandler(async (req, res) => {
   // Save the product to the database
   const savedProduct = await product.save();
 
-  res.status(201).json(savedProduct);
-
   // Remove image file from the image folder in the app
   fs.unlinkSync(imagePath);
+  res.status(201).json({ message: " the product has been created! " });
 });
 
 /**
@@ -82,9 +78,9 @@ const deleteProduct = asyncHandler(async (req, res) => {
  * @access Public
  */
 const updateProduct = asyncHandler(async (req, res) => {
+  console.log(req.body);
   const { error } = updateProductValidation(req.body);
   if (error) return res.status(400).json({ message: error.details[0].message });
-
   const updatedProduct = await Product.findByIdAndUpdate(
     req.params.id,
     { $set: req.body },
@@ -98,15 +94,14 @@ const updateProduct = asyncHandler(async (req, res) => {
 });
 
 /**
- * @desc Get a product by name
- * @route GET /api/products/name/:name
+ * @desc Get a product by ID
+ * @route GET /api/products/:id
  * @access Public
  */
-const getProductByName = asyncHandler(async (req, res) => {
-  const productName = req.params.name;
-
-  const product = await Product.findOne({ name: productName })
+const getProductById = asyncHandler(async (req, res) => {
+  const product = await Product.findById(req.params.id)
     .populate("category")
+    .populate("brand");
 
   if (!product) {
     return res.status(404).json({ message: "Product not found" });
@@ -116,92 +111,25 @@ const getProductByName = asyncHandler(async (req, res) => {
 });
 
 /**
- * @desc Get all products with pagination and sorting
+ * @desc Get all products with pagination
  * @route GET /api/products
  * @access Public
  */
 const getAllProducts = asyncHandler(async (req, res) => {
-  const {
-    price_min,
-    price_max,
-    sizes,
-    category,
-    brand,
-    color,
-    page = 1,
-    sort,
-  } = req.query;
-
-  let filters = {};
-
-  if (price_min && price_max) {
-    filters.price = { $gte: parseInt(price_min), $lte: parseInt(price_max) };
-  }
-
-  if (sizes) {
-    filters.sizes = { $in: sizes.split(",") };
-  }
-
-  if (category) {
-    filters.category = category;
-  }
-
-
-
-  if (brand) {
-    filters.brand = brand;
-  }
-
-  if (color) {
-    filters.color = color;
-  }
-
-  // Define sort options based on the sort query parameter
-  let sortOptions = {};
-  if (sort) {
-    switch (sort) {
-      case "featured":
-        // Define your logic for sorting by featured products
-        break;
-      case "best_selling":
-        // Define your logic for sorting by best-selling products
-        break;
-      case "alphabetically_asc":
-        sortOptions.name = 1;
-        break;
-      case "alphabetically_desc":
-        sortOptions.name = -1;
-        break;
-      case "price_asc":
-        sortOptions.price = 1;
-        break;
-      case "price_desc":
-        sortOptions.price = -1;
-        break;
-      case "date_old_to_new":
-        sortOptions.date = 1;
-        break;
-      case "date_new_to_old":
-        sortOptions.date = -1;
-        break;
-      default:
-        break;
-    }
-  }
+  const { page = 1 } = req.query;
 
   // Calculate skip value for pagination
   const limit = 20; // Number of products per page
   const skip = (page - 1) * limit;
 
   // Query products for the current page
-  const data = await Product.find(filters)
+  const data = await Product.find()
     .populate("category")
-    .sort(sortOptions) // Apply sorting options
     .limit(limit)
     .skip(skip);
 
-  // Find total count of products matching the filters
-  const totalCount = await Product.countDocuments(filters);
+  // Find total count of products
+  const totalCount = await Product.countDocuments();
 
   // Calculate total number of pages
   const totalPages = Math.ceil(totalCount / limit);
@@ -254,7 +182,7 @@ module.exports = {
   createProduct,
   deleteProduct,
   updateProduct,
-  getProductByName,
+  getProductById,
   getAllProducts,
   updateImageProductById,
 };

@@ -35,7 +35,7 @@ function Header() {
     };
   }, []);
 
-  const headerClasses = `fixed z-40 w-full duration-500 ${
+  const headerClasses = `fixed z-20 w-full duration-500 ${
     isHomeRoute
       ? hovered
         ? "bg-white text-black"

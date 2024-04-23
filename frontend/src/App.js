@@ -14,8 +14,8 @@ import Dashboard from "./pages/admin/dashboard";
 import DashboardHome from "./pages/admin/DashboardHome";
 import DashboardUsers from "./pages/admin/DashboardUsers";
 import DashboardProducts from "./pages/admin/DashboardProducts";
-import DashboardSizes from "./pages/admin/DashboardSizes";
-import DashboardCategories from "./pages/admin/DashboardCategories";
+import DashboardSize from "./pages/admin/DashboardSize";
+import DashboardCategories from "./pages/admin/DashboardCategory";
 import DashboardOrders from "./pages/admin/DashboardOrders";
 import DashboardSupport from "./pages/admin/DashboardSupport";
 import { useSelector } from "react-redux";
@@ -28,6 +28,10 @@ import EditProfile from "./pages/profile/edit-profile";
 import DashboardAddProduct from "./pages/admin/DashboardAddProduct";
 import Product from "./pages/product/product";
 import DashboardEditProduct from "./pages/admin/DashboardEditProduct";
+import "animate.css";
+import DashboardCategory from "./pages/admin/DashboardCategory";
+import DashboardBrand from "./pages/admin/DashboardBrand";
+
 function App() {
   let { user } = useSelector((state) => state.auth);
 
@@ -87,13 +91,17 @@ function App() {
             />
             <Route
               path="sizes"
-              element={user?.isAdmin ? <DashboardSizes /> : <Navigate to="/" />}
+              element={user?.isAdmin ? <DashboardSize /> : <Navigate to="/" />}
             />
             <Route
               path="categories"
               element={
-                user?.isAdmin ? <DashboardCategories /> : <Navigate to="/" />
+                user?.isAdmin ? <DashboardCategory /> : <Navigate to="/" />
               }
+            />
+            <Route
+              path="brands"
+              element={user?.isAdmin ? <DashboardBrand /> : <Navigate to="/" />}
             />
             <Route
               path="orders"
@@ -109,6 +117,7 @@ function App() {
             />
           </Route>
         </Routes>
+
         <Footer />
       </Router>
     </div>

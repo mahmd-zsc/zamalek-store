@@ -9,7 +9,6 @@ import "aos/dist/aos.css"; // Import AOS CSS
 function Profile() {
   let dispatch = useDispatch();
   let { auth, profile } = useSelector((state) => state);
-  console.log(profile);
   let navigate = useNavigate();
 
   useEffect(() => {

@@ -1,4 +1,5 @@
 // brandRoute.js
+const { imageUpload } = require("../middleware/uploadImage");
 
 const express = require("express");
 const {
@@ -7,12 +8,13 @@ const {
   deleteBrand,
   getBrandById,
   getAllBrands,
+  updateImageBrandById,
 } = require("../controllers/brandCtrl");
 
 const router = express.Router();
 
 // Route: Create a new brand
-router.post("/", createBrand);
+router.post("/", imageUpload.single("image"), createBrand);
 
 // Route: Update a brand by ID
 router.put("/:id", updateBrand);
@@ -25,5 +27,6 @@ router.get("/:id", getBrandById);
 
 // Route: Get all brands
 router.get("/", getAllBrands);
-
+// route : update image of brand
+router.put("/update-image/:id", updateImageBrandById);
 module.exports = router;

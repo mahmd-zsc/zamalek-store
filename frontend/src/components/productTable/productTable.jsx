@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
+import AOS from "aos";
+import "aos/dist/aos.css"; // Import the CSS file for AOS
 import Thead from "./thead";
 import Tbody from "./tbody";
 
 function ProductTable() {
   return (
-    <div className=" m-4 py-6 px-6 bg-gray-2  border-2 border-gray-200 rounded-lg min-h-96">
+    <div className="m-4 px-6 bg-gray-2 rounded-lg  ">
       <Thead />
-      <div className=" w-full h-[2px] bg-gray-200 my-2"></div>
       <Tbody />
     </div>
   );

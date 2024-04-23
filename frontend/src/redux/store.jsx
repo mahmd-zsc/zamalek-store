@@ -5,6 +5,9 @@ import { configureStore } from "@reduxjs/toolkit";
 import { productReducer } from "./slices/productSlice";
 import { authReducer } from "./slices/authSlice";
 import { profileReducer } from "./slices/profileSlice ";
+import { categoryReducer } from "./slices/categorySlice";
+import { brandReducer } from "./slices/brandSlice";
+import { sizeReducer } from "./slices/sizeSlice";
 
 // const store = createStore(rootReducer, applyMiddleware(thunk));
 const store = configureStore({
@@ -12,6 +15,9 @@ const store = configureStore({
     auth: authReducer,
     profile: profileReducer,
     product: productReducer,
+    category: categoryReducer,
+    brand: brandReducer,
+    size: sizeReducer,
   },
 });
 

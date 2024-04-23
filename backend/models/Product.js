@@ -3,7 +3,7 @@ const joi = require("joi");
 
 const productSchema = new mongoose.Schema(
   {
-    name: {
+    title: {
       type: String,
       required: true,
       trim: true,
@@ -40,28 +40,15 @@ const productSchema = new mongoose.Schema(
       },
     },
     brand: {
-      type: String,
-      default: "unknown",
-      trim: true,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Brand",
     },
-    ratings: {
-      type: Number,
-      default: 0,
-      min: 0,
-      max: 5,
-    },
-    tags: [
-      {
-        type: String,
-        trim: true,
-      },
-    ],
     color: {
       type: String,
       required: true,
       trim: true,
     },
-    discountPrice: {
+    discount: {
       type: Number,
       default: null,
       min: 0,
@@ -74,16 +61,17 @@ const productSchema = new mongoose.Schema(
   }
 );
 
-// Define a virtual field for reviews
-
 const Product = mongoose.model("Product", productSchema);
 
 const createProductValidation = (product) => {
   const schema = joi.object({
-    name: joi.string().required().trim(),
+    title: joi.string().required().trim(),
     description: joi.string().required(),
     price: joi.number().required().min(0),
-    sizes: joi.array().items(joi.string().required()),
+    sizes: joi
+      .array()
+      .items(joi.string().regex(/^[0-9a-fA-F]{24}$/))
+      .single(),
     category: joi
       .string()
       .required()
@@ -92,17 +80,13 @@ const createProductValidation = (product) => {
       url: joi.string(),
       publicId: joi.string(),
     }),
-    brand: joi.string().trim(),
-    ratings: joi.number().min(0).max(5),
-
-    tags: joi.array().items(joi.string().trim()),
-    type: joi
+    // Making brand optional
+    brand: joi
       .string()
-      .required()
-      .trim()
-      .regex(/^[0-9a-fA-F]{24}$/),
+      .regex(/^[0-9a-fA-F]{24}$/)
+      .optional(),
     color: joi.string().required().trim(),
-    discountPrice: joi.number().min(0).default(null),
+    discount: joi.number().min(0).default(null),
   });
 
   return schema.validate(product);
@@ -111,25 +95,18 @@ const createProductValidation = (product) => {
 const updateProductValidation = (obj) => {
   const schema = joi
     .object({
-      name: joi.string().trim(),
+      title: joi.string().trim(),
       description: joi.string(),
       price: joi.number().min(0),
-      sizes: joi.array().items(joi.string()),
+      sizes: joi.array().items(joi.string().regex(/^[0-9a-fA-F]{24}$/)),
       category: joi.string().regex(/^[0-9a-fA-F]{24}$/),
       image: joi.object({
         url: joi.string(),
         publicId: joi.string(),
       }),
       brand: joi.string().trim(),
-      ratings: joi.number().min(0).max(5),
-
-      tags: joi.array().items(joi.string().trim()),
-      type: joi
-        .string()
-        .trim()
-        .regex(/^[0-9a-fA-F]{24}$/),
       color: joi.string().trim(),
-      discountPrice: joi.number().min(0),
+      discount: joi.number().min(0),
     })
     .min(1);
 
