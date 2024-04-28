@@ -120,33 +120,33 @@ const updateImageBrandById = asyncHandler(async (req, res) => {
     return res.status(404).json({ message: "Image file not found" });
   }
 
-  // let brand = await Brand.findById(req.params.id);
-  // if (!brand) {
-  //   return res.status(404).json({ message: "Brand not found" });
-  // }
+  let brand = await Brand.findById(req.params.id);
+  if (!brand) {
+    return res.status(404).json({ message: "Brand not found" });
+  }
 
-  // if (brand.image.publicId !== null) {
-  //   await cloudinaryRemoveImage(brand.image.publicId);
-  // }
+  if (brand.image.publicId !== null) {
+    await cloudinaryRemoveImage(brand.image.publicId);
+  }
 
-  // let imagePath = path.join(__dirname, `../images/${req.file.filename}`);
-  // let result = await cloudinaryUploadImage(imagePath);
+  let imagePath = path.join(__dirname, `../images/${req.file.filename}`);
+  let result = await cloudinaryUploadImage(imagePath);
 
-  // brand.image = {
-  //   url: result.secure_url,
-  //   publicId: result.public_id,
-  // };
+  brand.image = {
+    url: result.secure_url,
+    publicId: result.public_id,
+  };
 
-  // // Add color update
-  // if (req.body.color) {
-  //   brand.color = req.body.color;
-  // }
+  // Add color update
+  if (req.body.color) {
+    brand.color = req.body.color;
+  }
 
-  // await brand.save(); // Ensure brand is saved before sending response
-  // fs.unlinkSync(imagePath); // Remove temporary image file
+  await brand.save(); // Ensure brand is saved before sending response
+  fs.unlinkSync(imagePath); // Remove temporary image file
 
-  // return res.status(200).json(brand);
-  console.log("gg")
+  return res.status(200).json(brand);
+  console.log("gg");
 });
 
 module.exports = {

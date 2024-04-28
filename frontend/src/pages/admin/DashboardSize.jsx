@@ -43,6 +43,7 @@ function DashboardSize() {
           <ul className="flex capitalize py-4 text-white bg-mainRed">
             <li className="flex-1 ps-3">Size</li>
             <li className=" flex-1 ">description</li>
+            <li className=" w-1/6 text-center ">actions</li>
           </ul>
           {/* Tbody */}
           {sizes.map((size, index) => (
@@ -58,6 +59,9 @@ function DashboardSize() {
               </li>
               <li className=" flex-1 ">
                 <p>{size.description}</p>
+              </li>
+              <li className=" w-1/6 ">
+                {/* <p>{size.description}</p> */}
               </li>
             </ul>
           ))}

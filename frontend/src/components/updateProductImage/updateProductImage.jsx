@@ -23,7 +23,7 @@ function UpdateProductImage() {
   const handleFileInputChange = async (event) => {
     const file = event.target.files[0];
     setSelectedFile(file);
-
+    console.log(file);
     // Create FormData object and append the file to it
     const formData = new FormData();
     formData.append("image", file);

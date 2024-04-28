@@ -10,13 +10,12 @@ import uploadImage from "../../images/icons/gallery.png";
 
 function EditBrandForm({ brand, editBrand, setEditBrand }) {
   const fileInputRef = useRef(null);
-  console.log(brand);
   const { loading, error } = useSelector((state) => state.brand);
   const [formData, setFormData] = useState({
     name: brand?.name,
     description: brand?.description,
-    image: brand?.image,
   });
+  let [image, setImage] = useState(brand?.image);
   const [selectedFile, setSelectedFile] = useState(null);
 
   const [errors, setErrors] = useState({});
@@ -32,8 +31,8 @@ function EditBrandForm({ brand, editBrand, setEditBrand }) {
 
     const formData = new FormData();
     formData.append("image", file);
-
-    await dispatch(updateBrandImage(brand._id, formData));
+    console.log(file);
+     dispatch(updateBrandImage(brand._id, formData));
     // dispatch(brandActions.setBrands([]));
   };
 
@@ -64,8 +63,7 @@ function EditBrandForm({ brand, editBrand, setEditBrand }) {
     }
 
     if (Object.keys(newErrors).length === 0) {
-      // dispatch(updateBrand(brand._id, formData));
-
+      dispatch(updateBrand(brand._id, formData));
       setTimeout(() => {
         setEditBrand(false);
         dispatch(fetchBrands());
@@ -88,9 +86,7 @@ function EditBrandForm({ brand, editBrand, setEditBrand }) {
             <img
               className="w-40"
               src={
-                selectedFile
-                  ? URL.createObjectURL(selectedFile)
-                  : brand?.image?.url
+                selectedFile ? URL.createObjectURL(selectedFile) : image?.url
               }
               alt=""
             />

@@ -7,11 +7,11 @@ function Dashboard() {
   return (
     <div
       // style={{ height: "calc(100vh - 72px - 168px)" }}
-      className="dashboard-container mt-20 flex min-h-screen container  overflow-hidden bg-gray-50"
+      className="dashboard-container lg:mx-10 md:mx-8 sm:mx-6 pt-20 flex min-h-screen   overflow-hidden bg-gray-50"
     >
       <Sidebar />
       <div
-       // Adjusted the scrollbar width here
+        // Adjusted the scrollbar width here
         className="main-content m-4 p-0 w-full bg-white "
       >
         <Outlet />

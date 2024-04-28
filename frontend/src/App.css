@@ -3,6 +3,10 @@
   src: url("./fonts/Blockletter.otf");
 }
 body {
+  font-family: "Harmonia Sans", sans-serif;
+  src: url("./fonts/Harmonia\ Sans\ Mono\ W01\ Bold.ttf");
+}
+.superFont {
   font-family: fly;
 }
 body {
@@ -73,4 +77,12 @@ body {
   font-family: "Roboto", sans-serif;
   font-weight: 900;
   font-style: normal;
+}
+.card {
+  /* box-shadow: 0 3px 10px #0003; */
+  box-shadow: 0 3px 10px #0000001a;
+  transition-duration: 1s;
+}
+.card:hover img {
+  transform: scale(1.05);
 }

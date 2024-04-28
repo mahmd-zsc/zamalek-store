@@ -58,7 +58,7 @@ function Header() {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <div className="py-2 flex gap-2 container md:gap-20 items-center justify-between m-auto">
+      <div className="py-2 flex gap-2 lg:mx-10 md:mx-8 sm:mx-6 mx-4  md:gap-20 items-center justify-between m-auto">
         <Logo hovered={hovered} isHomeRoute={isHomeRoute} />
         <div className="hidden md:block">
           <Links />

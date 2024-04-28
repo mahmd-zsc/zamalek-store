@@ -21,7 +21,7 @@ console.log(brandId)
 
   return (
     deleteBrandCard && (
-      <div className="w-full fixed inset-0 z-50">
+      <div className="w-full fixed inset-0 z-50 ">
         <div
           onClick={() => setDeleteBrandCard(false)}
           className="w-full h-full bg-black opacity-15 absolute inset-0"

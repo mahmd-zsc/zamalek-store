@@ -27,7 +27,7 @@ function Profile() {
 
   return (
     profile.profile && (
-      <div className="container h-full mt-32 md:mt-40">
+      <div className="container h-full pt-32 md:pt-40">
         <div className="mb-20 flex md:items-center justify-between flex-col md:flex-row ">
           <h1 data-aos="fade-right" className="text-3xl md:text-5xl">
             My Account

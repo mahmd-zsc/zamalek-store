@@ -1,11 +1,12 @@
 // App.jsx
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   Navigate,
+  useLocation,
 } from "react-router-dom";
 import Home from "./pages/home/home";
 import Header from "./components/header/header";
@@ -31,17 +32,21 @@ import DashboardEditProduct from "./pages/admin/DashboardEditProduct";
 import "animate.css";
 import DashboardCategory from "./pages/admin/DashboardCategory";
 import DashboardBrand from "./pages/admin/DashboardBrand";
+import Setting from "./components/setting/setting";
+import Sale from "./pages/sale/sale";
 
 function App() {
   let { user } = useSelector((state) => state.auth);
-
   return (
-    <div className="App min-h-screen  overflow-hidden">
+    <div className="App     ">
+      <Setting />
       <Router>
         <Header />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/shop" element={<Shop />} />
+          <Route path="/sale" element={<Sale />} />
+
           <Route
             path="/login"
             element={user ? <Navigate to="/" /> : <Login />}
@@ -117,7 +122,6 @@ function App() {
             />
           </Route>
         </Routes>
-
         <Footer />
       </Router>
     </div>

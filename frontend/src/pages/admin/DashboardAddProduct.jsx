@@ -3,10 +3,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import AddProductForm from "../../components/addProductForm/addProductForm";
-import { useScrollToTop } from "../../utils/useScrollToTop ";
+import { ScrollToTop } from "../../utils/ScrollToTop ";
 
 function DashboardAddProduct() {
- useScrollToTop()
+  ScrollToTop();
   useEffect(() => {
     document.body.style.overflow = "visible";
   }, []);

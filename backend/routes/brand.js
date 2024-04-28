@@ -28,5 +28,9 @@ router.get("/:id", getBrandById);
 // Route: Get all brands
 router.get("/", getAllBrands);
 // route : update image of brand
-router.put("/update-image/:id", updateImageBrandById);
+router.put(
+  "/update-image/:id",
+  imageUpload.single("image"),
+  updateImageBrandById
+);
 module.exports = router;

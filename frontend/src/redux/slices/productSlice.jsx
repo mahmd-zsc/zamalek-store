@@ -6,14 +6,20 @@ const productSlice = createSlice({
   name: "products",
   initialState: {
     products: [],
+    saleProducts: [],
     loading: false,
     error: null,
     productCreatedMessage: null,
     product: null,
+    filter: false,
+    setting: false,
   },
   reducers: {
     setProducts(state, action) {
       state.products = action.payload;
+    },
+    setSaleProduct(state, action) {
+      state.saleProducts = action.payload;
     },
     setProduct(state, action) {
       state.product = action.payload;
@@ -24,8 +30,14 @@ const productSlice = createSlice({
     setLoading(state, action) {
       state.loading = action.payload;
     },
+    setFilter(state, action) {
+      state.filter = action.payload;
+    },
     setProductCreatedMessage(state, action) {
       state.productCreatedMessage = action.payload;
+    },
+    SetSetting(state, action) {
+      state.setting = action.payload;
     },
   },
 });

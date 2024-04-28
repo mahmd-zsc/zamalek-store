@@ -44,9 +44,9 @@ const productSchema = new mongoose.Schema(
       ref: "Brand",
     },
     color: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Color", // Reference to the Color model
       required: true,
-      trim: true,
     },
     discount: {
       type: Number,
@@ -85,7 +85,10 @@ const createProductValidation = (product) => {
       .string()
       .regex(/^[0-9a-fA-F]{24}$/)
       .optional(),
-    color: joi.string().required().trim(),
+    color: joi
+      .string()
+      .required()
+      .regex(/^[0-9a-fA-F]{24}$/), // Validate color as ObjectId
     discount: joi.number().min(0).default(null),
   });
 
@@ -105,7 +108,10 @@ const updateProductValidation = (obj) => {
         publicId: joi.string(),
       }),
       brand: joi.string().trim(),
-      color: joi.string().trim(),
+      color: joi
+        .string()
+        .trim()
+        .regex(/^[0-9a-fA-F]{24}$/), // Validate color as ObjectId
       discount: joi.number().min(0),
     })
     .min(1);

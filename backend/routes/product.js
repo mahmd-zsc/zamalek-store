@@ -7,6 +7,7 @@ const {
   getAllProducts,
   updateImageProductById,
   getProductById,
+  getProductsOnSale,
 } = require("../controllers/productCtrl");
 const { verifyTokenAndAdmin } = require("../middleware/verifyToken"); // Modify middleware as needed
 const { imageUpload } = require("../middleware/uploadImage");
@@ -17,6 +18,9 @@ router
   .route("/")
   .get(getAllProducts)
   .post(imageUpload.single("image"), createProduct);
+
+// Route: Get products on sale (Public access)
+router.route("/sale").get(getProductsOnSale);
 
 // Route: Get, Update, and Delete a product by ID (Public access)
 // Route: Get a product by ID (Public access)

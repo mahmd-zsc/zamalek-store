@@ -9,7 +9,7 @@ function Logo({ hovered }) {
 
   return (
     <Link to="/">
-      <div className="relative flex justify-center items-center h-full gap-2">
+      <div className="relative flex justify-center items-center h-full gap-2 superFont">
         <img className=" w-6 md:w-8" src={zsc} alt="" />
         {/* Add styles to make the line visible */}
         <div

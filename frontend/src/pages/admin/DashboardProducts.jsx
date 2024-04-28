@@ -4,11 +4,11 @@ import { fetchProducts } from "../../redux/apiCalls/productApiCalls";
 import ProductTable from "../../components/productTable/productTable";
 import Loading from "../loading/loading";
 import { useNavigate } from "react-router-dom";
-import { useScrollToTop } from "../../utils/useScrollToTop ";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import { ScrollToTop } from "../../utils/ScrollToTop ";
 function DashboardProducts() {
-  useScrollToTop();
+  ScrollToTop();
   const dispatch = useDispatch();
   const { products, loading, error } = useSelector((state) => state.product);
   let navigate = useNavigate();

@@ -4,7 +4,6 @@ import {
   deleteProduct,
   fetchProducts,
 } from "../../redux/apiCalls/productApiCalls";
-import { useScrollToTop } from "../../utils/useScrollToTop ";
 
 function DeleteProductCard({
   deleteProductCard,

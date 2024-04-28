@@ -2,11 +2,12 @@ import request from "../../utils/request";
 import { productActions } from "../slices/productSlice";
 
 export let fetchProducts = () => {
+  let search = window.location.search;
   return async (dispatch) => {
     try {
-      dispatch(productActions.setLoading(true));
+      // dispatch(productActions.setLoading(true));
       dispatch(productActions.setError(null));
-      let { data } = await request.get("products");
+      let { data } = await request.get("products" + search);
       dispatch(productActions.setProducts(data));
       dispatch(productActions.setLoading(false));
     } catch (error) {
@@ -15,8 +16,22 @@ export let fetchProducts = () => {
     }
   };
 };
+export let fetchSaleProducts = () => {
+  let search = window.location.search;
+  return async (dispatch) => {
+    try {
+      // dispatch(productActions.setLoading(true));
+      dispatch(productActions.setError(null));
+      let { data } = await request.get("products/sale" + search);
+      dispatch(productActions.setSaleProduct(data));
+      dispatch(productActions.setLoading(false));
+    } catch (error) {
+      dispatch(productActions.setError(error.response.data));
+      dispatch(productActions.setLoading(false));
+    }
+  };
+};
 export let getProduct = (productId) => {
-  console.log(productId);
   return async (dispatch) => {
     try {
       dispatch(productActions.setLoading(true));
@@ -38,9 +53,8 @@ export const createProduct = (formData) => {
       dispatch(productActions.setLoading(true));
       dispatch(productActions.setError(null));
       const { data } = await request.post("products", formData);
-      console.log(data)
+      console.log(data);
       dispatch(productActions.setProductCreatedMessage(data));
-
     } catch (error) {
       dispatch(productActions.setError(error.response?.data));
       console.error(error);

@@ -1,24 +1,19 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./colorSelect.css";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchColors } from "../../redux/apiCalls/colorApiCalls";
 
 function ColorSelect({ handleChange, activeColor, setActiveColor }) {
-  const popularColors = [
-    { name: "Red", colorCode: "#FF0000" },
-    { name: "Blue", colorCode: "#0000FF" },
-    { name: "Green", colorCode: "#00FF00" },
-    { name: "Yellow", colorCode: "#FFFF00" },
-    { name: "Orange", colorCode: "#FFA500" },
-    { name: "Purple", colorCode: "#800080" },
-    { name: "Pink", colorCode: "#FFC0CB" },
-    { name: "Black", colorCode: "#000000" },
-    { name: "White", colorCode: "#FFFFFF" },
-    { name: "Gray", colorCode: "#808080" },
-  ];
+  let dispatch = useDispatch();
+  let { colors } = useSelector((state) => state.color);
 
+  useEffect(() => {
+    dispatch(fetchColors());
+  }, {});
 
-  const handleClick = (colorCode, name) => {
+  const handleClick = (colorCode, name, id) => {
     setActiveColor(name);
-    handleChange({ target: { name: "color", value: name } });
+    handleChange({ target: { name: "color", value: id } });
   };
 
   return (
@@ -27,10 +22,10 @@ function ColorSelect({ handleChange, activeColor, setActiveColor }) {
         Color
       </label>
       <div className="color-select flex w-full flex-wrap gap-3 items-center">
-        {popularColors.map((color) => (
+        {colors.map((color) => (
           <div
             key={color.colorCode}
-            onClick={() => handleClick(color.colorCode, color.name)}
+            onClick={() => handleClick(color.colorCode, color.name, color._id)}
             className={`w-6 h-6 rounded-full cursor-pointer shadow-md hover:scale-110 duration-150 ${
               activeColor === color.name ? "active" : ""
             }`}

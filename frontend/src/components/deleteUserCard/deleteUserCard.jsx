@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { useScrollToTop } from "../../utils/useScrollToTop ";
 import { deleteUser, getAllUsers } from "../../redux/apiCalls/profileApiCall";
 
 function DeleteUserCard({ deleteUserCard, deleteUserId, setDeleteUserCard }) {

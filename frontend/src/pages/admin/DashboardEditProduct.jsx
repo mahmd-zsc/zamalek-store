@@ -19,12 +19,14 @@ function DashboardEditProduct() {
   let { productId } = useParams();
   let navigate = useNavigate();
   const dispatch = useDispatch();
-  const [activeColor, setActiveColor] = useState(null);
 
   const { category } = useSelector((state) => state);
   const { sizes } = useSelector((state) => state.size);
   const { brands } = useSelector((state) => state.brand);
+
   let { product, error, loading } = useSelector((state) => state.product);
+  const [activeColor, setActiveColor] = useState();
+  console.log(activeColor);
   const [formData, setFormData] = useState({
     title: "",
     color: "",
@@ -91,7 +93,8 @@ function DashboardEditProduct() {
       color,
       sizes,
     };
-    dispatch(updateProduct(productId, data));
+    // dispatch(updateProduct(productId, data));
+    console.log(data);
     if (!error) {
       setTimeout(() => navigate("/dashboard/products"), 500);
     }
@@ -132,11 +135,11 @@ function DashboardEditProduct() {
       brand: product?.brand?._id,
       sizes: product?.sizes,
     });
-    setActiveColor(product?.color);
+    setActiveColor(product?.color.name);
   }, [product]);
   return (
     <div className="w-full mt-10 roboto-medium capitalize rounded-lg p-4">
-      <UpdateProductImage /> 
+      <UpdateProductImage />
       <form
         className="flex flex-col gap-4 text-gray-500"
         onSubmit={handleSubmit}

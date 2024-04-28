@@ -6,10 +6,9 @@ module.exports = {
       center: true,
       padding: {
         DEFAULT: "1rem",
-        sm: "1rem",
-        lg: "1rem",
-        xl: "4rem",
-        "2xl": "10rem",
+        lg: "2rem",
+        xl: "3rem",
+        "2xl": "4rem",
       },
     },
     extend: {
@@ -20,4 +19,8 @@ module.exports = {
     },
   },
   plugins: [],
+  corePlugins: {
+    // position utility is already enabled by default
+    position: true,
+  },
 };

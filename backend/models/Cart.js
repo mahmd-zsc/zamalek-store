@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const joi = require("joi");
+const Joi = require("joi");
 
 const cartSchema = new mongoose.Schema(
   {
@@ -42,12 +42,6 @@ const cartSchema = new mongoose.Schema(
       default: 0,
       min: 0,
     },
-    discount: {
-      type: Number,
-      default: 0,
-      min: 0,
-    },
-
     total: {
       type: Number,
       default: 0,
@@ -64,45 +58,43 @@ const cartSchema = new mongoose.Schema(
 const Cart = mongoose.model("Cart", cartSchema);
 
 const createCartValidation = (cart) => {
-  const schema = joi.object({
-    user: joi
-      .string()
+  const schema = Joi.object({
+    user: Joi.string()
       .required()
       .regex(/^[0-9a-fA-F]{24}$/),
-    items: joi.array().items(
-      joi.object({
-        product: joi
-          .string()
-          .required()
-          .regex(/^[0-9a-fA-F]{24}$/),
-        quantity: joi.number().required().min(1),
-        totalPrice: joi.number().required().min(0),
-      })
-    ),
-    totalQuantity: joi.number().default(0),
-    totalPrice: joi.number().default(0).min(0),
-    subtotal: joi.number().default(0).min(0),
-    discount: joi.number().default(0).min(0),
-    total: joi.number().default(0).min(0),
+    cart: Joi.array()
+      .items(
+        Joi.object({
+          product: Joi.string()
+            .required()
+            .regex(/^[0-9a-fA-F]{24}$/),
+          quantity: Joi.number().required().min(1),
+          totalPrice: Joi.number().required().min(0),
+        })
+      )
+      .required(),
+    totalQuantity: Joi.number().default(0),
+    totalPrice: Joi.number().default(0).min(0),
+    subtotal: Joi.number().default(0).min(0),
+    total: Joi.number().default(0).min(0),
   });
 
   return schema.validate(cart);
 };
 
 const updateCartValidation = (obj) => {
-  const schema = joi.object({
-    items: joi.array().items(
-      joi.object({
-        product: joi.string().regex(/^[0-9a-fA-F]{24}$/),
-        quantity: joi.number().min(1),
-        totalPrice: joi.number().min(0),
+  const schema = Joi.object({
+    cart: Joi.array().items(
+      Joi.object({
+        product: Joi.string().regex(/^[0-9a-fA-F]{24}$/),
+        quantity: Joi.number().min(1),
+        totalPrice: Joi.number().min(0),
       })
     ),
-    totalQuantity: joi.number(),
-    totalPrice: joi.number().min(0),
-    subtotal: joi.number().min(0),
-    discount: joi.number().min(0),
-    total: joi.number().min(0),
+    totalQuantity: Joi.number(),
+    totalPrice: Joi.number().min(0),
+    subtotal: Joi.number().min(0),
+    total: Joi.number().min(0),
   });
 
   return schema.validate(obj);

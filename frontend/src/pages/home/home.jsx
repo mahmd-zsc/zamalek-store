@@ -5,10 +5,9 @@ import FirstSection from "./firstSection";
 import BlackLeisure from "./blackLeisure";
 import BasketBall from "./basketBall";
 
-
 function Home() {
   return (
-    <div>
+    <div className=" superFont">
       <Landing />
       <FirstSection />
       <BlackLeisure />

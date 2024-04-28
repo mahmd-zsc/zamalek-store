@@ -48,6 +48,7 @@ function AddProductForm() {
       // Clear the error message when user starts typing in the input
       setErrors({ ...errors, [name]: "" });
     }
+    console.log(formData);
   };
   const handleImageChange = (e) => {
     const image = e.target.files[0];

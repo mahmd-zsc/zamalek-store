@@ -60,8 +60,16 @@ export const updateBrandImage = (brandId, file) => {
     try {
       dispatch(brandActions.setLoading(true));
       dispatch(brandActions.setError(null));
-      await request.put(`brands/update-image/${brandId}`, file);
+
+      // Assuming request.put returns a promise
+      const response = await request.put(
+        `brands/update-image/${brandId}`,
+        file
+      );
+
+      // dispatch(brandActions.updateBrandImageSuccess(response.data));
     } catch (error) {
+      // Handle errors
       dispatch(brandActions.setError(error.response?.data));
       console.error(error);
     } finally {

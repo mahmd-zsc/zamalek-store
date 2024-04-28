@@ -17,7 +17,7 @@ function Links() {
 
   return (
     <nav className="flex     items-center justify-between  ">
-      <ul className="flex md:flex-row flex-col gap-4 justify-center items-center text-sm ">
+      <ul className="flex md:flex-row flex-col gap-4 justify-center items-center text-xs roboto-bold ">
         {linksArray.map((linkItem, index) => (
           <li
             key={index}
