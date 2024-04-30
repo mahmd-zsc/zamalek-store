@@ -34,96 +34,94 @@ import DashboardCategory from "./pages/admin/DashboardCategory";
 import DashboardBrand from "./pages/admin/DashboardBrand";
 import Setting from "./components/setting/setting";
 import Sale from "./pages/sale/sale";
+import Search from "./pages/search/search";
 
 function App() {
   let { user } = useSelector((state) => state.auth);
+  let [isDashboard, setIsDashboard] = useState();
+  let location = useLocation();
+  useEffect(() => {
+    setIsDashboard(location.pathname.includes("dashboard"));
+  }, [location]);
   return (
     <div className="App     ">
       <Setting />
-      <Router>
-        <Header />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/shop" element={<Shop />} />
-          <Route path="/sale" element={<Sale />} />
+      {!isDashboard && <Header />}
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/shop" element={<Shop />} />
+        <Route path="/sale" element={<Sale />} />
+        <Route path="/search" element={<Search />} />
 
+        <Route path="/login" element={user ? <Navigate to="/" /> : <Login />} />
+        <Route
+          path="/register"
+          element={user ? <Navigate to="/" /> : <Register />}
+        />
+        <Route
+          path="/profile"
+          element={!user ? <Navigate to="/login" /> : <Profile />}
+        />
+        <Route
+          path="/profile/edit-profile"
+          element={!user ? <Navigate to="/login" /> : <EditProfile />}
+        />
+        <Route path="/shop/products/:id" element={<Product />} />
+        <Route
+          path="/dashboard/*"
+          element={user?.isAdmin ? <Dashboard /> : <Navigate to="/" />}
+        >
           <Route
-            path="/login"
-            element={user ? <Navigate to="/" /> : <Login />}
+            index
+            element={user?.isAdmin ? <DashboardHome /> : <Navigate to="/" />}
           />
           <Route
-            path="/register"
-            element={user ? <Navigate to="/" /> : <Register />}
+            path="users"
+            element={user?.isAdmin ? <DashboardUsers /> : <Navigate to="/" />}
           />
           <Route
-            path="/profile"
-            element={!user ? <Navigate to="/login" /> : <Profile />}
+            path="products"
+            element={
+              user?.isAdmin ? <DashboardProducts /> : <Navigate to="/" />
+            }
           />
           <Route
-            path="/profile/edit-profile"
-            element={!user ? <Navigate to="/login" /> : <EditProfile />}
+            path="products/add-product"
+            element={
+              user?.isAdmin ? <DashboardAddProduct /> : <Navigate to="/" />
+            }
           />
-          <Route path="/shop/products/:id" element={<Product />} />
           <Route
-            path="/dashboard/*"
-            element={user?.isAdmin ? <Dashboard /> : <Navigate to="/" />}
-          >
-            <Route
-              index
-              element={user?.isAdmin ? <DashboardHome /> : <Navigate to="/" />}
-            />
-            <Route
-              path="users"
-              element={user?.isAdmin ? <DashboardUsers /> : <Navigate to="/" />}
-            />
-            <Route
-              path="products"
-              element={
-                user?.isAdmin ? <DashboardProducts /> : <Navigate to="/" />
-              }
-            />
-            <Route
-              path="products/add-product"
-              element={
-                user?.isAdmin ? <DashboardAddProduct /> : <Navigate to="/" />
-              }
-            />
-            <Route
-              path="products/edit-product/:productId"
-              element={
-                user?.isAdmin ? <DashboardEditProduct /> : <Navigate to="/" />
-              }
-            />
-            <Route
-              path="sizes"
-              element={user?.isAdmin ? <DashboardSize /> : <Navigate to="/" />}
-            />
-            <Route
-              path="categories"
-              element={
-                user?.isAdmin ? <DashboardCategory /> : <Navigate to="/" />
-              }
-            />
-            <Route
-              path="brands"
-              element={user?.isAdmin ? <DashboardBrand /> : <Navigate to="/" />}
-            />
-            <Route
-              path="orders"
-              element={
-                user?.isAdmin ? <DashboardOrders /> : <Navigate to="/" />
-              }
-            />
-            <Route
-              path="support"
-              element={
-                user?.isAdmin ? <DashboardSupport /> : <Navigate to="/" />
-              }
-            />
-          </Route>
-        </Routes>
-        <Footer />
-      </Router>
+            path="products/edit-product/:productId"
+            element={
+              user?.isAdmin ? <DashboardEditProduct /> : <Navigate to="/" />
+            }
+          />
+          <Route
+            path="sizes"
+            element={user?.isAdmin ? <DashboardSize /> : <Navigate to="/" />}
+          />
+          <Route
+            path="categories"
+            element={
+              user?.isAdmin ? <DashboardCategory /> : <Navigate to="/" />
+            }
+          />
+          <Route
+            path="brands"
+            element={user?.isAdmin ? <DashboardBrand /> : <Navigate to="/" />}
+          />
+          <Route
+            path="orders"
+            element={user?.isAdmin ? <DashboardOrders /> : <Navigate to="/" />}
+          />
+          <Route
+            path="support"
+            element={user?.isAdmin ? <DashboardSupport /> : <Navigate to="/" />}
+          />
+        </Route>
+      </Routes>
+      {!isDashboard && <Footer />}
     </div>
   );
 }

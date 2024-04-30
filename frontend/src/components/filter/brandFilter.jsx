@@ -6,6 +6,7 @@ import {
   fetchSaleProducts,
 } from "../../redux/apiCalls/productApiCalls";
 import { useLocation } from "react-router-dom";
+import { fetchSearchProductsQuery } from "../../redux/apiCalls/searchApiCalls";
 
 function BrandFilter() {
   const { brands } = useSelector((state) => state.brand);
@@ -47,6 +48,8 @@ function BrandFilter() {
         window.history.replaceState(null, null, `?${queryParams.toString()}`);
         if (window.location.pathname.includes("sale")) {
           dispatch(fetchSaleProducts());
+        } else if (window.location.pathname.includes("search")) {
+          dispatch(fetchSearchProductsQuery())
         } else {
           dispatch(fetchProducts());
         }

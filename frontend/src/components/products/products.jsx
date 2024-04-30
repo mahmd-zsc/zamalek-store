@@ -8,15 +8,16 @@ import Loading from "./loading";
 
 const Products = () => {
   const location = useLocation(); // Get current location
-  const [isSalePage, setIsSalePage] = useState();
+  const [isSalePage, setIsSalePage] = useState(false);
   const { products, saleProducts, loading, error } = useSelector(
     (state) => state.product
   );
   useEffect(() => {
     setIsSalePage(location.pathname.includes("sale"));
   }, [location.pathname]);
+
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   if (error) {
@@ -24,26 +25,20 @@ const Products = () => {
   }
 
   return (
-    <>
-      {loading ? (
-        <Loading />
-      ) : (
-        <div>
-          <div className="grid gap-y-8 gap-x-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 pb-10 p-2">
-            {(isSalePage ? saleProducts : products)?.data?.map((product) => (
-              <Link
-                key={product.id}
-                to={`/shop/products/${product.title.replace(/\s/g, "-")}`}
-              >
-                <BoxProduct product={product} /> {/* Pass product as prop */}
-              </Link>
-            ))}
-          </div>
-          {products?.data?.length > 0 ||
-            (saleProducts?.data?.length > 0 && <Pagination />)}
-        </div>
-      )}
-    </>
+    <div>
+      <div className="grid gap-y-8 gap-x-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 pb-10 p-2">
+        {(isSalePage ? saleProducts : products)?.data?.map((product) => (
+          <Link
+            key={product.id}
+            to={`/shop/products/${product.title.replace(/\s/g, "-")}`}
+          >
+            <BoxProduct product={product} /> {/* Pass product as prop */}
+          </Link>
+        ))}
+      </div>
+      {products?.data?.length > 0 ||
+        (saleProducts?.data?.length > 0 && <Pagination products={location.pathname.includes("sale") ? saleProducts : products} loading={loading}/>)}
+    </div>
   );
 };
 

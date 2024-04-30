@@ -30,10 +30,12 @@ router
   .put(updateProduct)
   .delete(deleteProduct);
 
+// Route: Update product image by ID (Public access)
 router.put(
   "/update-image/:id",
   imageUpload.single("image"),
   updateImageProductById
 );
+
 // Export the router
 module.exports = router;

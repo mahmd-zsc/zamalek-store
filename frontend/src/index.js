@@ -7,6 +7,7 @@ import store from "./redux/store";
 import StructuredData from "./StructuredData ";
 import OpenGraphMetaTags from "./OpenGraphMetaTags";
 import IOSMetaTags from "./IOSMetaTags";
+import { BrowserRouter } from "react-router-dom";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -15,7 +16,9 @@ root.render(
       <StructuredData />
       <OpenGraphMetaTags />
       <IOSMetaTags />
-      <App />
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     </Provider>
   </React.StrictMode>
 );

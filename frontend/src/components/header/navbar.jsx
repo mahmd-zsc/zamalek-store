@@ -26,10 +26,6 @@ function Navbar() {
   const [showMenu, setShowMenu] = useState(false);
   const [showCart, setShowCart] = useState(false);
 
-  const toggleSearch = () => {
-    setShowSearch(true);
-  };
-
   const toggleShowMenu = () => {
     setShowMenu(true);
   };
@@ -44,7 +40,7 @@ function Navbar() {
   };
 
   const menuItems = [
-    { name: "Search", icon: faSearch, onClick: toggleSearch },
+    { name: "Search", icon: faSearch, onClick: () => setShowSearch(true) },
     {
       name: "User",
       icon: faUser,
@@ -60,10 +56,10 @@ function Navbar() {
 
   return (
     <div>
-      {showSearch && <Search onCancel={toggleSearch} />}
-      <ul className="flex gap-4 justify-end">
+      <ul className="flex gap-4 justify-end ">
         {menuItems.map((item, index) => (
           <li
+            onClick={item.onClick}
             key={index}
             className={`${item.name === "User" ? "hidden md:block" : null} ${
               item.name === "Menu" ? "md:hidden" : null
@@ -72,11 +68,11 @@ function Navbar() {
             <FontAwesomeIcon
               icon={item.icon}
               className="w-6 cursor-pointer opacity-85 hover:opacity-100 duration-150 relative hover:-translate-y-1"
-              onClick={item.onClick}
             />
           </li>
         ))}
-      </ul>
+      </ul>{" "}
+      <Search showSearch={showSearch} setShowSearch={setShowSearch} />
       <Menu showMenu={showMenu} toggleHiddenMenu={toggleHiddenMenu} />
       <Cart showCart={showCart} toggleHiddenCart={toggleHiddenCart} />
     </div>

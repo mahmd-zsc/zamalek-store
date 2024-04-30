@@ -6,6 +6,7 @@ import { fetchSizes } from "../../redux/apiCalls/sizeApiCalls";
 import "./product.css";
 import Loading from "./loading";
 import RelatedProducts from "./relatedProducts";
+import { ScrollToTop } from "../../utils/ScrollToTop ";
 function Product() {
   let { product, loading } = useSelector((state) => state.product);
   let { sizes } = useSelector((state) => state.size);
@@ -15,6 +16,7 @@ function Product() {
   useEffect(() => {
     dispatch(getProduct(id));
     dispatch(fetchSizes());
+    ScrollToTop();
   }, [id]);
   useEffect(() => {
     setCurrentSize(product?.sizes[0]);
@@ -68,7 +70,7 @@ function Product() {
                 </p>
                 <div className=" flex flex-col gap-2 mt-5 ">
                   <p>size</p>
-                  <ul className=" flex gap-2 items-center">
+                  <ul className=" products-ul flex gap-2 items-center">
                     {sizes?.map((size) => (
                       <li
                         onClick={() => sizeHandler(size)}

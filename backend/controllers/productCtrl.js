@@ -70,7 +70,7 @@ const createProduct = asyncHandler(async (req, res) => {
  */
 const deleteProduct = asyncHandler(async (req, res) => {
   const product = await Product.findByIdAndDelete(req.params.id);
-  if (!product) return res.status(400).json({ message: "Product not found" });
+  // if (!product) return res.status(400).json({ message: "Product not found" });
 
   res.status(200).json({ message: "Product deleted successfully" });
 });
@@ -91,9 +91,9 @@ const updateProduct = asyncHandler(async (req, res) => {
   );
 
   if (!updatedProduct)
-    return res.status(400).json({ message: "Product not found" });
+    // return res.status(400).json({ message: "Product not found" });
 
-  res.status(200).json(updatedProduct);
+    res.status(200).json(updatedProduct);
 });
 
 /**
@@ -141,6 +141,7 @@ const getAllProducts = asyncHandler(async (req, res) => {
     sizes,
     sortBy,
     brand,
+    search, // Add search parameter
   } = req.query;
   const limit = 20; // Number of products per page
   const skip = (page - 1) * limit;
@@ -160,6 +161,8 @@ const getAllProducts = asyncHandler(async (req, res) => {
       filter.category = { $in: categoryIds };
     }
   }
+
+  // Apply brand filter if provided
   if (brand) {
     const brandNames = Array.isArray(brand) ? brand : [brand];
     const brandIds = [];
@@ -174,6 +177,7 @@ const getAllProducts = asyncHandler(async (req, res) => {
     }
   }
 
+  // Apply colors filter if provided
   if (colors) {
     const colorNames = colors.split(",");
     const colorObjects = await Color.find({ name: { $in: colorNames } });
@@ -198,6 +202,14 @@ const getAllProducts = asyncHandler(async (req, res) => {
     const sizeObjects = await Size.find({ name: { $in: sizeNames } });
     const sizeIds = sizeObjects.map((size) => size._id);
     filter.sizes = { $in: sizeIds };
+  }
+
+  // Apply search query filter if provided
+  if (search) {
+    filter.$or = [
+      { title: { $regex: search, $options: "i" } }, // Search in title
+      { description: { $regex: search, $options: "i" } }, // Search in description
+    ];
   }
 
   // Query products with applied filters
@@ -228,7 +240,9 @@ const getAllProducts = asyncHandler(async (req, res) => {
 
   // Calculate total number of pages
   const totalPages = Math.ceil(totalCount / limit);
-
+  if (data.length === 0) {
+    return res.status(404).json({ massage: "No results found" });
+  }
   // Return products, total pages, and total count in the response
   res.status(200).json({
     data,
@@ -354,10 +368,6 @@ const getProductsOnSale = asyncHandler(async (req, res) => {
     totalCount,
   });
 });
-
-module.exports = {
-  getProductsOnSale,
-};
 
 /**
  * @desc Update the image Product By Id

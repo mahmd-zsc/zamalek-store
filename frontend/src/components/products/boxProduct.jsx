@@ -7,7 +7,6 @@ const BoxProduct = ({ product }) => {
 
   const handleImageLoad = () => {
     setImageLoaded(true);
-    console.log(true);
   };
 
   return (

@@ -11,9 +11,7 @@ import SortBy from "../sortBy/sortBy";
 import SortByFilter from "./sortByFilter";
 function Filter() {
   return (
-    <div
-      className=" sticky top-0 h-screen    w-full  pb-5  custom-scrollbar  overflow-hidden  overflow-y-scroll "
-    >
+    <div className=" sticky top-12 h-screen    w-full  pb-5  custom-scrollbar  overflow-hidden  overflow-y-scroll ">
       <div className=" flex         flex-col gap-4 ">
         <div className=" mb-4">
           <h4 className="font-bold py-4 text-md text-black">Filter</h4>

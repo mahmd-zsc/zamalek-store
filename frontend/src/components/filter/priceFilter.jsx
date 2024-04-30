@@ -7,6 +7,7 @@ import {
 import { productActions } from "../../redux/slices/productSlice";
 import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { fetchSearchProductsQuery } from "../../redux/apiCalls/searchApiCalls";
 
 function PriceFilter() {
   let { filter } = useSelector((state) => state.product);
@@ -57,6 +58,8 @@ function PriceFilter() {
         window.history.replaceState(null, null, `?${queryParams.toString()}`);
         if (window.location.pathname.includes("sale")) {
           dispatch(fetchSaleProducts());
+        } else if (window.location.pathname.includes("search")) {
+          dispatch(fetchSearchProductsQuery())
         } else {
           dispatch(fetchProducts());
         }

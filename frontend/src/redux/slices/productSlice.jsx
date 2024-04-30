@@ -7,7 +7,7 @@ const productSlice = createSlice({
   initialState: {
     products: [],
     saleProducts: [],
-    loading: false,
+    loading: true,
     error: null,
     productCreatedMessage: null,
     product: null,

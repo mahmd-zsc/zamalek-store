@@ -4,6 +4,7 @@ import {
   fetchProducts,
   fetchSaleProducts,
 } from "../../redux/apiCalls/productApiCalls";
+import { fetchSearchProductsQuery } from "../../redux/apiCalls/searchApiCalls";
 
 function SortByFilter() {
   const [open, setOpen] = useState(true);
@@ -56,6 +57,8 @@ function SortByFilter() {
         window.history.replaceState(null, null, `?${queryParams.toString()}`);
         if (window.location.pathname.includes("sale")) {
           dispatch(fetchSaleProducts());
+        } else if (window.location.pathname.includes("search")) {
+          dispatch(fetchSearchProductsQuery())
         } else {
           dispatch(fetchProducts());
         }

@@ -9,6 +9,7 @@ import { categoryReducer } from "./slices/categorySlice";
 import { brandReducer } from "./slices/brandSlice";
 import { sizeReducer } from "./slices/sizeSlice";
 import { colorReducer } from "./slices/colorSlice";
+import { searchReducer } from "./slices/searchSlice";
 
 // const store = createStore(rootReducer, applyMiddleware(thunk));
 const store = configureStore({
@@ -20,6 +21,7 @@ const store = configureStore({
     brand: brandReducer,
     size: sizeReducer,
     color: colorReducer,
+    search: searchReducer,
   },
 });
 

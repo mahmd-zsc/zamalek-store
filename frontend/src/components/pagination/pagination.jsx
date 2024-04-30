@@ -6,32 +6,19 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { fetchProducts } from "../../redux/apiCalls/productApiCalls";
 import { useLocation } from "react-router-dom";
 
-function Pagination() {
+function Pagination({ products, loading }) {
   let location = useLocation();
   let dispatch = useDispatch();
 
-  const { products, loading, saleProducts } = useSelector(
-    (state) => state.product
-  );
-
   let [isMounted, setIsMounted] = useState(false);
   const [currentPage, setCurrentPage] = useState();
-  const [totalPages, setTotalPages] = useState(
-    location.pathname.includes("sale")
-      ? saleProducts.totalPages
-      : products.totalPages
-  );
-  console.log(currentPage);
+  const [totalPages, setTotalPages] = useState(products.totalPages);
   useEffect(() => {
     const queryParams = new URLSearchParams(window.location.search);
     const page = +queryParams.get("page") || 1;
     setCurrentPage(page);
-    setTotalPages(
-      location.pathname.includes("sale")
-        ? saleProducts.totalPages
-        : products.totalPages
-    );
-  }, [products, saleProducts, dispatch]);
+    setTotalPages(products.totalPages);
+  }, [products, dispatch]);
 
   const handleClickPage = (value) => {
     if (currentPage !== value) {
@@ -55,7 +42,6 @@ function Pagination() {
       return () => clearTimeout(timeoutId);
     }
   }, [currentPage, isMounted]);
-  console.log(currentPage);
   return (
     totalPages !== 1 && (
       <div className="pagination mb-16 mt-6 superFont text-gray-900">
@@ -79,18 +65,16 @@ function Pagination() {
               {index + 1}
             </li>
           ))}
-          {(currentPage !== totalPages && products?.data?.length > 0) ||
-            saleProducts?.data?.length >
-            (
-              <button
-                onClick={() => handleClickPage(currentPage + 1)}
-                className={`px-2 cursor-pointer ${
-                  currentPage === totalPages ? "hidden" : ""
-                }`}
-              >
-                <FontAwesomeIcon icon={faAngleRight} />
-              </button>
-            )}
+          {(currentPage !== totalPages && products?.data?.length > 0)(
+            <button
+              onClick={() => handleClickPage(currentPage + 1)}
+              className={`px-2 cursor-pointer ${
+                currentPage === totalPages ? "hidden" : ""
+              }`}
+            >
+              <FontAwesomeIcon icon={faAngleRight} />
+            </button>
+          )}
         </ul>
       </div>
     )

@@ -7,6 +7,7 @@ import {
   fetchSaleProducts,
 } from "../../redux/apiCalls/productApiCalls";
 import "./filter.css";
+import { fetchSearchProductsQuery } from "../../redux/apiCalls/searchApiCalls";
 function CategoryFilter() {
   const { filter } = useSelector((state) => state.product);
   const { categories } = useSelector((state) => state.category);
@@ -50,6 +51,8 @@ function CategoryFilter() {
         window.history.replaceState(null, null, `?${queryParams.toString()}`);
         if (window.location.pathname.includes("sale")) {
           dispatch(fetchSaleProducts());
+        } else if (window.location.pathname.includes("search")) {
+          dispatch(fetchSearchProductsQuery())
         } else {
           dispatch(fetchProducts());
         }

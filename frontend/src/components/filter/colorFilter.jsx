@@ -4,6 +4,7 @@ import { fetchColors } from "../../redux/apiCalls/colorApiCalls";
 import { fetchProducts, fetchSaleProducts } from "../../redux/apiCalls/productApiCalls";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import { fetchSearchProductsQuery } from "../../redux/apiCalls/searchApiCalls";
 
 function ColorFilter() {
 
@@ -49,6 +50,8 @@ function ColorFilter() {
         window.history.replaceState(null, null, `?${queryParams.toString()}`);
         if (window.location.pathname.includes("sale")) {
           dispatch(fetchSaleProducts());
+        } else if (window.location.pathname.includes("search")) {
+          dispatch(fetchSearchProductsQuery())
         } else {
           dispatch(fetchProducts());
         }

@@ -1,5 +1,13 @@
-.sidebar .active {
-  background-color: #db1f24;
-  color: white;
-  border-radius: 10px;
+.sidebar .sidebar-nav .active {
+  color: red;
+}
+
+.angle:hover .angleTop {
+  transform: rotate(30deg);
+}
+.angle:hover .angleBottom {
+  transform: rotate(-30deg);
+}
+.angle {
+  transition-duration: 1s;
 }
