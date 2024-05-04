@@ -19,14 +19,18 @@ function Header() {
       const scrollTop =
         window.pageYOffset || document.documentElement.scrollTop;
       const navbar = navbarRef.current;
-
+    
       if (scrollTop <= lastScrollTop || scrollTop < 80) {
         navbar.style.transform = "translateY(0)";
       } else {
-        navbar.style.transform = "translateY(-100%)";
+        // Only set translateY(-100%) if overflow is not hidden
+        if (document.body.style.overflow !== "hidden") {
+          navbar.style.transform = "translateY(-100%)";
+        }
       }
       lastScrollTop = scrollTop;
     };
+    
 
     window.addEventListener("scroll", handleScroll);
 

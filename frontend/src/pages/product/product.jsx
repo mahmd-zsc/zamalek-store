@@ -3,102 +3,122 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getProduct } from "../../redux/apiCalls/productApiCalls";
 import { fetchSizes } from "../../redux/apiCalls/sizeApiCalls";
-import "./product.css";
+import { addToCart } from "../../redux/apiCalls/cartApiCall";
 import Loading from "./loading";
+import NotFound from "../notFound/notFound";
 import RelatedProducts from "./relatedProducts";
 import { ScrollToTop } from "../../utils/ScrollToTop ";
+import { cartActions } from "../../redux/slices/cartSlice";
+import "./product.css";
+
 function Product() {
-  let { product, loading } = useSelector((state) => state.product);
-  let { sizes } = useSelector((state) => state.size);
-  let [currentSize, setCurrentSize] = useState();
-  let { id } = useParams();
-  let dispatch = useDispatch();
+  const dispatch = useDispatch();
+  const { id } = useParams();
+  const { product, loading, error } = useSelector((state) => state.product);
+  const { cartItems } = useSelector((state) => state.cart);
+  const { sizes } = useSelector((state) => state.size);
+  const [imageLoading, setImageLoading] = useState(false);
+  const [currentSize, setCurrentSize] = useState();
+
   useEffect(() => {
     dispatch(getProduct(id));
     dispatch(fetchSizes());
     ScrollToTop();
-  }, [id]);
+  }, [dispatch, id]);
+
   useEffect(() => {
     setCurrentSize(product?.sizes[0]);
   }, [product]);
-  let sizeHandler = (event) => {
-    if (product.sizes.includes(event._id)) {
-      setCurrentSize(event._id);
+
+  const sizeHandler = (selectedSize) => {
+    if (product.sizes.includes(selectedSize._id)) {
+      setCurrentSize(selectedSize._id);
     }
   };
-  // Calculate the price-off-amount
-  const priceOffAmount = Math.floor(Number(product?.price - product?.discount));
 
-  // Calculate the percentage discount
+  const priceOffAmount = Math.floor(Number(product?.price - product?.discount));
   const percentageDiscount = (
     (product?.discount / product?.price) *
     100
   ).toFixed(0);
-  console.log(currentSize);
+
+  const cartHandler = () => {
+    dispatch(addToCart({ id: product._id, size: currentSize, quantity: 1 }));
+    dispatch(cartActions.setMakeChange(true));
+  };
+
+  if (error) {
+    return <NotFound />;
+  }
+
   return (
-    <div>
+    <div className="min-h-screen">
       {loading ? (
         <Loading />
       ) : (
         product &&
-        sizes && (
-          <div className=" container min-h-screen md:pt-40 pt-20 pb-20">
+        !loading && (
+          <div className="container min-h-screen md:pt-40 pt-20 pb-20">
             <div className="flex flex-col lg:flex-row w-full overflow-hidden">
               <img
-                className=" flex-1 md:px-20 lg:px-0 lg:w-1/2"
+                className="flex-1 md:px-20 lg:px-0 lg:w-1/2"
                 src={product?.image?.url}
                 alt=""
+                onLoad={() => setImageLoading(true)}
               />
-              <div className=" flex flex-col gap-4 flex-1">
+              <div className="flex flex-col gap-4 flex-1">
                 <h3 className="text-3xl bo">{product?.title}</h3>
                 <p>
-                  <span className=" font-bold">
-                    LE <span className=" font-medium">{priceOffAmount}</span>{" "}
-                    EGP{" "}
+                  <span className="font-bold">
+                    LE <span className="font-medium">{priceOffAmount}</span> EGP{" "}
                   </span>
                   {product?.discount && (
                     <>
                       <span>
                         <del>LE {Number(product?.price).toFixed(2)} EGP</del>
                       </span>{" "}
-                      <span className=" ml-2  bg-red-500 text-white py-1 px-2 rounded-md text-xs">
+                      <span className="ml-2 bg-red-500 text-white py-1 px-2 rounded-md text-xs">
                         {" "}
                         sale -save {percentageDiscount}%
                       </span>
                     </>
                   )}
                 </p>
-                <div className=" flex flex-col gap-2 mt-5 ">
-                  <p>size</p>
-                  <ul className=" products-ul flex gap-2 items-center">
-                    {sizes?.map((size) => (
-                      <li
-                        onClick={() => sizeHandler(size)}
-                        className={`relative border border-gray-400  px-2 py-1 hover:border-gray-900 duration-300 cursor-pointer ${
-                          size._id === currentSize ? "active" : ""
-                        }`}
-                      >
-                        <span className=" text-sm">{size.name}</span>
-                        <div
-                          className={`absolute w-px h-[90%] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gray-400 rotate-45 ${
-                            product.sizes.includes(size._id) ? "hidden" : ""
+                {product?.sizes.length > 0 && (
+                  <div className="flex flex-col gap-2 mt-5">
+                    <p>size</p>
+                    <ul className="products-ul flex gap-2 items-center">
+                      {sizes?.map((size) => (
+                        <li
+                          key={size._id}
+                          onClick={() => sizeHandler(size)}
+                          className={`relative border border-gray-400 px-2 py-1 hover:border-gray-900 duration-300 cursor-pointer ${
+                            size._id === currentSize ? "active" : ""
                           }`}
-                        ></div>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div className=" flex  items-center gap-8 mt-5">
-                  <button className=" blackBottom flex-1 h-full ">
+                        >
+                          <span className="text-sm">{size.name}</span>
+                          <div
+                            className={`absolute w-px h-[90%] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gray-400 rotate-45 ${
+                              product.sizes.includes(size._id) ? "hidden" : ""
+                            }`}
+                          ></div>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+                <div className="flex items-center gap-8 mt-5">
+                  <button
+                    onClick={cartHandler}
+                    className="blackBottom flex-1 h-full"
+                  >
                     Add to Cart
                   </button>
-                  <button className=" whiteBottom flex-1 h-full ">
-                    Buy Now
-                  </button>
+                  <button className="whiteBottom flex-1 h-full">Buy Now</button>
                 </div>
                 <div>
                   {/* <p>{product.description}</p> */}
-                  <p className=" text-sm leading-6  text-gray-600">
+                  <p className="text-sm leading-6 text-gray-600">
                     Lorem ipsum dolor sit amet consectetur, adipisicing elit.
                     Corrupti rem in reprehenderit pariatur enim voluptatem error
                     iusto eveniet possimus voluptates, velit est, facere

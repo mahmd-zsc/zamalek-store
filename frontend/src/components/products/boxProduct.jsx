@@ -1,6 +1,9 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { productActions } from "../../redux/slices/productSlice";
 
 const BoxProduct = ({ product }) => {
+  let dispatch = useDispatch();
   // Format price to always display with two decimal places
   const formattedPrice = Number(product.price - product.discount).toFixed(2);
   const [imageLoaded, setImageLoaded] = useState(false);
@@ -27,7 +30,7 @@ const BoxProduct = ({ product }) => {
         <div className="px-4">
           <div className="w-full h-px bg-gray-300 rounded-full"></div>
         </div>
-        <div className="px-10 flex flex-col gap-2 text-center">
+        <div className="px-10 flex flex-col gap-2 text-center h-[30%]">
           <p className="capitalize text-sm">{product.title}</p>
           <div className=" h-10 flex flex-col">
             <p className="font-thin text-xs opacity-80 ">

@@ -7,7 +7,7 @@ import BasketBall from "./basketBall";
 
 function Home() {
   return (
-    <div className=" superFont">
+    <div className=" superFont overflow-hidden">
       <Landing />
       <FirstSection />
       <BlackLeisure />

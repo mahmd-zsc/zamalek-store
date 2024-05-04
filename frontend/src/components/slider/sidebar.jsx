@@ -32,6 +32,7 @@ const Sidebar = () => {
   const [activeItemPosition, setActiveItemPosition] = useState({});
   let [openSidebar, setOpenSidebar] = useState(true);
   // Effects
+  // Inside the useEffect hook
   useEffect(() => {
     if (location.pathname === "/dashboard") {
       setActiveItemPosition({
@@ -41,14 +42,16 @@ const Sidebar = () => {
       });
     } else {
       const activeElement = activeRef.current;
-      const rect = activeElement.getBoundingClientRect();
+      if (activeElement) {
+        const rect = activeElement.getBoundingClientRect();
 
-      setActiveItemPosition({
-        top: rect.top + window.pageYOffset,
-        left: rect.left + window.pageXOffset,
-        width: rect.width,
-        height: rect.height,
-      });
+        setActiveItemPosition({
+          top: rect.top + window.pageYOffset,
+          left: rect.left + window.pageXOffset,
+          width: rect.width,
+          height: rect.height,
+        });
+      }
     }
   }, [location.pathname]);
 
@@ -56,12 +59,12 @@ const Sidebar = () => {
   // JSX
   return (
     <div
-      className={` absolute lg:relative ${
+      className={` absolute lg:relative  ${
         openSidebar ? "lg:w-[30%] w-[90%]   " : "w-0"
       } duration-300  h-screen`}
     >
       <div
-        className={`sidebar relative  overflow-hidden  flex-1 bg-white z-40 h-screen ${
+        className={`sidebar relative  overflow-hidden  flex-1  bg-white z-40 h-screen ${
           openSidebar ? "opacity-100" : " opacity-0 "
         } `}
       >
@@ -88,7 +91,7 @@ const Sidebar = () => {
         </ul>
         {activeItemPosition && (
           <div
-            className="absolute rounded-l-full -z-10 bg-[#ECF4FD] duration-300"
+            className="activeItemPosition absolute rounded-l-full  -z-10 bg-[#ECF4FD] duration-300"
             style={{
               top: activeItemPosition.top,
               left: activeItemPosition.left,
@@ -97,7 +100,6 @@ const Sidebar = () => {
             }}
           />
         )}
-  
       </div>
       {openSidebar && (
         <div

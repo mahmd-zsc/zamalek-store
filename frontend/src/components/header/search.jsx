@@ -102,7 +102,7 @@ function Search({ showSearch, setShowSearch }) {
                       setShowSearch(false);
                       setWords("");
                     }}
-                    className=""
+                    className=" cursor-pointer"
                   >
                     <BoxProduct key={product.id} product={product} />
                   </div>

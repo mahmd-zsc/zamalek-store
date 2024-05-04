@@ -31,6 +31,7 @@ const Products = () => {
           <Link
             key={product.id}
             to={`/shop/products/${product.title.replace(/\s/g, "-")}`}
+            
           >
             <BoxProduct product={product} /> {/* Pass product as prop */}
           </Link>

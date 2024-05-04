@@ -35,6 +35,7 @@ import DashboardBrand from "./pages/admin/DashboardBrand";
 import Setting from "./components/setting/setting";
 import Sale from "./pages/sale/sale";
 import Search from "./pages/search/search";
+import NotFound from "./pages/notFound/notFound";
 
 function App() {
   let { user } = useSelector((state) => state.auth);
@@ -52,6 +53,7 @@ function App() {
         <Route path="/shop" element={<Shop />} />
         <Route path="/sale" element={<Sale />} />
         <Route path="/search" element={<Search />} />
+        <Route path="*" element={<NotFound />} />
 
         <Route path="/login" element={user ? <Navigate to="/" /> : <Login />} />
         <Route

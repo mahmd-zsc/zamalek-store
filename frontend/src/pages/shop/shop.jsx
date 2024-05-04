@@ -19,42 +19,45 @@ function Shop() {
     dispatch(productActions.SetSetting(true));
   };
   return (
-    <div className="pt-24    bg-white lg:mx-10 md:mx-8 sm:mx-6 mx-4  font-sans min-h-screen   ">
-      {(products?.data?.length > 0 || saleProducts?.data?.length > 0) && (
-        <div className=" lg:flex items-center gap-6 hidden sticky top-0 bg-white z-10">
-          <Breadcrumbs />
-          <div className=" flex-1 items-center justify-between py-6    flex px-2  ">
-            <SortBy />
-            <p className="capitalize text-xs">
-              <span>{products.totalCount}</span> products
-            </p>
+    <>
+      <div className="pt-24 bg-white lg:mx-10 md:mx-8 sm:mx-6 mx-4 font-sans min-h-screen">
+        {(products?.data?.length > 0 || saleProducts?.data?.length > 0) && (
+          <div className="lg:flex items-center gap-6 hidden sticky top-0 bg-white z-10">
+            <Breadcrumbs />
+            <div className="flex-1 items-center justify-between py-6 flex px-2">
+              <SortBy />
+              {products && (
+                <p className="capitalize text-xs">
+                  <span>{products.totalCount}</span> products
+                </p>
+              )}
+            </div>
           </div>
-        </div>
-      )}
-      {(products?.data?.length > 0 || saleProducts?.data?.length > 0) && (
-        <div className="z-10 items-center justify-between py-6 sticky top-0 bg-white flex lg:hidden  ">
-          <Breadcrumbs />
-
-          <img
-            onClick={settingHandler}
-            className="w-5 cursor-pointer scale-105 duration-200 "
-            src={settingImg}
-            alt="settingImg"
-          />
-        </div>
-      )}
-      <div className="flex gap-6">
-        <div className=" hidden lg:block w-[20%]   ">
-          <Filter />
-        </div>
-
-        <div className=" flex-1   ">
-          <div className="">
-            <Products />
+        )}
+        {(products?.data?.length > 0 || saleProducts?.data?.length > 0) && (
+          <div className="z-10 items-center justify-between py-6 sticky top-0 bg-white flex lg:hidden">
+            <Breadcrumbs />
+            <img
+              onClick={settingHandler}
+              className="w-5 cursor-pointer scale-105 duration-200"
+              src={settingImg}
+              alt="settingImg"
+            />
+          </div>
+        )}
+        <div className="flex gap-6">
+          <div className="hidden lg:block w-[20%]">
+            <Filter />
+          </div>
+          <div className="flex-1">
+            <div>
+              {products && products?.data && <Products />}
+              {/* Ensure products.data is not undefined before rendering */}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

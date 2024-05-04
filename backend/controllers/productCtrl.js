@@ -97,14 +97,41 @@ const updateProduct = asyncHandler(async (req, res) => {
 });
 
 /**
- * @desc Get a product by ID
- * @route GET /api/products/:id
+ * @desc Get a product by Title
+ * @route GET /api/products/title/:Title
  * @access Public
  */
-const getProductById = asyncHandler(async (req, res) => {
+const getProductByTitle = asyncHandler(async (req, res) => {
   const product = await Product.findOne({
     title: req.params.id.replace(/-/g, " "),
   })
+    .populate("category")
+    .populate("brand")
+    .populate("color");
+
+  if (!product) {
+    return res.status(404).json({ message: "Product not found" });
+  }
+
+  // Find related products based on category or brand
+  const relatedProducts = await Product.find({
+    $or: [
+      { category: product.category },
+      { brand: product.brand },
+      // Add more criteria if needed
+    ],
+    _id: { $ne: product._id }, // Exclude the current product
+  }).limit(4); // Limit the number of related products
+
+  res.status(200).json({ ...product._doc, relatedProducts });
+});
+/**
+ * @desc Get a product by id
+ * @route GET /api/products/id/:id
+ * @access Public
+ */
+const getProductById = asyncHandler(async (req, res) => {
+  const product = await Product.findById(req.params.id)
     .populate("category")
     .populate("brand")
     .populate("color");
@@ -409,8 +436,9 @@ module.exports = {
   createProduct,
   deleteProduct,
   updateProduct,
-  getProductById,
   getAllProducts,
   getProductsOnSale,
   updateImageProductById,
+  getProductByTitle,
+  getProductById,
 };

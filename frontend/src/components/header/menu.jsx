@@ -20,12 +20,11 @@ function Menu({ toggleHiddenMenu, showMenu }) {
   ];
 
   useEffect(() => {
-    if (showMenu) {
-      document.body.style.overflow = "hidden";
-      AOS.init();
-    } else {
-      document.body.style.overflow = "visible";
-    }
+    // if (showMenu) {
+    //   document.body.style.overflow = "hidden";
+    // } else {
+    //   document.body.style.overflow = "visible";
+    // }
 
     const handleOutsideClick = (event) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
@@ -37,7 +36,6 @@ function Menu({ toggleHiddenMenu, showMenu }) {
 
     return () => {
       document.removeEventListener("mousedown", handleOutsideClick);
-      AOS.refresh();
     };
   }, [showMenu]);
 
@@ -48,8 +46,8 @@ function Menu({ toggleHiddenMenu, showMenu }) {
       )}
       <div
         ref={menuRef}
-        className={`absolute  right-0 top-0 h-screen bg-white duration-300 overflow-hidden pt-2 text-black  ${
-          showMenu ? "sm:w-1/2 w-[80%] px-4" : "w-0"
+        className={`absolute right-0 top-0 bottom-0 h-screen bg-white duration-300 overflow-hidden pt-2 text-black ${
+          showMenu ? "sm:w-full w-[80%] px-4" : "w-0"
         }`}
       >
         <>

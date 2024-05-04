@@ -6,17 +6,19 @@ import {
   faShoppingCart,
   faBars,
   faTimes,
+  faBagShopping,
 } from "@fortawesome/free-solid-svg-icons";
 import Search from "./search";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import Menu from "./menu";
-import Cart from "./cart";
+import Cart from "./cart/cart";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 function Navbar() {
   let { user } = useSelector((state) => state.auth);
+  let cart = useSelector((state) => state.cart);
   let navigate = useNavigate();
   useEffect(() => {
     AOS.init();
@@ -48,12 +50,19 @@ function Navbar() {
     },
     {
       name: "Cart",
-      icon: faShoppingCart,
+      icon: faBagShopping,
       onClick: toggleShowCart,
     },
     { name: "Menu", icon: faBars, onClick: toggleShowMenu },
   ];
 
+  useEffect(() => {
+    if (cart.makeChange) {
+      setTimeout(() => {
+        setShowCart(true);
+      }, 300);
+    }
+  }, [cart]);
   return (
     <div>
       <ul className="flex gap-4 justify-end ">
@@ -61,14 +70,17 @@ function Navbar() {
           <li
             onClick={item.onClick}
             key={index}
-            className={`${item.name === "User" ? "hidden md:block" : null} ${
-              item.name === "Menu" ? "md:hidden" : null
-            }`}
+            className={` relative hover:-translate-y-1 duration-150 ${
+              item.name === "User" ? "hidden md:block" : null
+            } ${item.name === "Menu" ? "md:hidden" : null}`}
           >
             <FontAwesomeIcon
               icon={item.icon}
-              className="w-6 cursor-pointer opacity-85 hover:opacity-100 duration-150 relative hover:-translate-y-1"
+              className="w-6 cursor-pointer opacity-85 hover:opacity-100  relative "
             />
+            {item.name === "Cart" && cart?.cartItems?.length > 0 && (
+              <div className=" duration-300 absolute w-1 h-1 bg-mainRed rounded-full left-1/2 top-[14px] -translate-y-1/2 -translate-x-1/2"></div>
+            )}
           </li>
         ))}
       </ul>{" "}

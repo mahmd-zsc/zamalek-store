@@ -13,12 +13,11 @@ function RelatedProducts() {
   let navigate = useNavigate();
   const handleImageLoad = () => {
     setImageLoaded(true);
-    console.log(true);
   };
   let relHandlerClick = async (rel) => {
     dispatch(getProduct(id));
     navigate(`/shop/products/${rel.title.replace(/\s/g, "-")}`);
-     ScrollToTop()
+    ScrollToTop();
   };
   return (
     relatedProducts && (

@@ -58,8 +58,9 @@ const Register = () => {
 
   return (
     <div className="container my-20 flex justify-center items-center">
-      <div
-        className="max-w-lg h-[600px] flex justify-center items-center flex-col"
+      <div 
+      style={{minHeight : "calc(100vh - 10px)"}}
+        className="max-w-lg  flex justify-center items-center flex-col"
         data-aos="fade-up"
       >
         <h2 className="capitalize text-3xl md:text-5xl mb-2">Register</h2>

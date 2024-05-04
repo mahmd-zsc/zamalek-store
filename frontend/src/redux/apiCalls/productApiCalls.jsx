@@ -36,7 +36,7 @@ export let getProduct = (productId) => {
     try {
       dispatch(productActions.setLoading(true));
       dispatch(productActions.setError(null));
-      let { data } = await request.get(`products/${productId}`);
+      let { data } = await request.get(`products/title/${productId}`);
       dispatch(productActions.setProduct(data));
       dispatch(productActions.setLoading(false));
     } catch (error) {

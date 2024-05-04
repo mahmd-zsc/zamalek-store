@@ -1,0 +1,43 @@
+.plus:active svg,
+.minus:active svg {
+ transform: scale(0.8);
+}
+
+.checkout {
+    padding: 15px 0;
+    border: unset;
+    border-radius: 10px;
+    color: #ffffff;
+    z-index: 1;
+    background: #000000;
+    position: relative;
+    font-weight: 300;
+    font-size: 13px;
+    transition: all 250ms;
+    overflow: hidden;
+    border: solid black 1px;
+  }
+  
+  .checkout::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 0;
+    width: 100%;
+    border-radius: 10px;
+    background-color: #ebebeb;
+    z-index: -1;
+    -webkit-box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
+    box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
+    transition: all 250ms;
+  }
+  
+  .checkout:hover {
+    color: #000000;
+  }
+  
+  .checkout:hover::before {
+    height: 100%;
+  }
+  

@@ -65,7 +65,7 @@ function Pagination({ products, loading }) {
               {index + 1}
             </li>
           ))}
-          {(currentPage !== totalPages && products?.data?.length > 0)(
+          {currentPage !== totalPages && products?.data?.length > 0 && (
             <button
               onClick={() => handleClickPage(currentPage + 1)}
               className={`px-2 cursor-pointer ${
