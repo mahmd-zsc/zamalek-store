@@ -12,7 +12,14 @@ connectWithDb();
 app.use(errorHandler);
 app.use(express.static(path.join(__dirname, "images")));
 app.use(helmet());
-app.use(cors());
+// app.use(cors());
+app.use(
+  cors({
+    origin: ["https://deploy-mern-1whq.vercel.app"],
+    methods: ["POST", "GET"],
+    credentials: true,
+  })
+);
 
 // Routes for entities
 app.use(`${process.env.API_VERSION}categories/`, require("./routes/category"));
