@@ -8,6 +8,7 @@ const brandSlice = createSlice({
     brands: [],
     loading: true,
     error: null,
+    brand: null,
   },
   reducers: {
     setBrands(state, action) {
@@ -18,6 +19,9 @@ const brandSlice = createSlice({
     },
     setLoading(state, action) {
       state.loading = action.payload;
+    },
+    setBrand(state, action) {
+      state.brand = action.payload;
     },
   },
 });

@@ -70,6 +70,9 @@ const createProduct = asyncHandler(async (req, res) => {
  */
 const deleteProduct = asyncHandler(async (req, res) => {
   const product = await Product.findByIdAndDelete(req.params.id);
+  if (product.image.publicId !== null) {
+    await cloudinaryRemoveImage(product.image.publicId);
+  }
   // if (!product) return res.status(400).json({ message: "Product not found" });
 
   res.status(200).json({ message: "Product deleted successfully" });
@@ -240,7 +243,10 @@ const getAllProducts = asyncHandler(async (req, res) => {
   }
 
   // Query products with applied filters
-  let query = Product.find(filter).populate("category");
+  let query = Product.find(filter)
+    .populate("category")
+    .populate("brand")
+    .populate("color");
 
   // Sort products if sortBy parameter is provided
   if (sortBy) {
@@ -267,9 +273,6 @@ const getAllProducts = asyncHandler(async (req, res) => {
 
   // Calculate total number of pages
   const totalPages = Math.ceil(totalCount / limit);
-  if (data.length === 0) {
-    return res.status(404).json({ massage: "No results found" });
-  }
   // Return products, total pages, and total count in the response
   res.status(200).json({
     data,

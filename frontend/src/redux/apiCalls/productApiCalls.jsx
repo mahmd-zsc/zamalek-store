@@ -11,7 +11,8 @@ export let fetchProducts = () => {
       dispatch(productActions.setProducts(data));
       dispatch(productActions.setLoading(false));
     } catch (error) {
-      dispatch(productActions.setError(error.response.data));
+      dispatch(productActions.setError(error.response));
+      console.log(error);
       dispatch(productActions.setLoading(false));
     }
   };
@@ -37,6 +38,20 @@ export let getProduct = (productId) => {
       dispatch(productActions.setLoading(true));
       dispatch(productActions.setError(null));
       let { data } = await request.get(`products/title/${productId}`);
+      dispatch(productActions.setProduct(data));
+      dispatch(productActions.setLoading(false));
+    } catch (error) {
+      dispatch(productActions.setError(error.response.data));
+      dispatch(productActions.setLoading(false));
+    }
+  };
+};
+export let getProductById = (productId) => {
+  return async (dispatch) => {
+    try {
+      dispatch(productActions.setLoading(true));
+      dispatch(productActions.setError(null));
+      let { data } = await request.get(`products/id/${productId}`);
       dispatch(productActions.setProduct(data));
       dispatch(productActions.setLoading(false));
     } catch (error) {

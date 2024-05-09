@@ -7,16 +7,28 @@ import deleteImage from "../../images/icons/trash.png";
 import DeleteUserCard from "../../components/deleteUserCard/deleteUserCard";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import DeleteCard from "../../components/deleteCard/deleteCard";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faBars,
+  faEdit,
+  faEllipsis,
+  faTrashAlt,
+} from "@fortawesome/free-solid-svg-icons";
+import { dashboardActions } from "../../redux/slices/dashboardSlice";
+import ActionOfUser from "../../components/actionOfUser/actionOfUser";
 function DashboardUsers() {
   const [deleteUserCard, setDeleteUserCard] = useState(false); // State for showing/hiding delete product card
   const [deleteUserId, setDeleteUserId] = useState(null); // State to store the id of the product to delete
-  let navigate = useNavigate();
+  const [isActionMenuVisible, setActionMenuVisibility] = useState(false);
+
   let { profiles, loading, error } = useSelector((state) => state.profile);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getAllUsers());
   }, []);
+  let { fullSidebar } = useSelector((state) => state.dashboard);
 
   const deleteProductCardHandler = (userId) => {
     console.log(userId);
@@ -27,53 +39,47 @@ function DashboardUsers() {
     AOS.init();
   }, []);
   return (
-    <div className="h-full">
-      {loading && (
-        <div
-          style={{
-            width: "50px",
-            height: "50px",
-            border: "10px solid rgb(255, 0, 0);",
-            borderTopColor: "white",
-            animation: "loader 0.60s linear infinite",
-            borderRadius: "50%",
-          }}
-          className="circle-loading absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 m-auto"
-        ></div>
-      )}
+    <div className="h-full flex flex-col gap-6  custom-scrollbar pb-24">
       {error && <div>{error}</div>}
+      <div className=" flex items-center gap-4 text-gray-900 ">
+        <FontAwesomeIcon
+          onClick={() =>
+            dispatch(dashboardActions.setFullSidebar(!fullSidebar))
+          }
+          size="2xl"
+          icon={faBars}
+          className=" cursor-pointer"
+        />
+        <h2 className=" font-bold text-2xl">users</h2>
+      </div>
       {profiles && profiles.length > 0 && !loading && !error && (
-        <div className="m-4 px-6 bg-gray-2 rounded-lg animate__animated animate__fadeInUp">
+        <div className="my-4  bg-gray-2 rounded-lg ">
           {/* Thead */}
-          <ul className="flex capitalize py-4 text-white bg-mainRed">
+          <ul className="flex capitalize  py-4  text-gray-500 bg-white rounded-lg">
             <li className="flex-1 ps-3">user</li>
             <li className="w-1/4 text-center">email</li>
-            <li className="w-1/4 text-center">action</li>
+            <li className="w-1/4 text-center"></li>
           </ul>
+
           {/* Tbody */}
-          {profiles.map((p, index) => (
-            <ul
-              key={p.id}
-              className={`flex items-center font-sans roboto-medium py-2 text-gray-700 border ${
-                index % 2 === 0 ? "bg-white" : "bg-gray-100"
-              }`}
-            >
-              <li className="relative flex items-center gap-2 flex-1 ps-2">
-                <img className="opacity-80" src={avatar} alt="" />
-                <p>{p.username}</p>
-                <div className="absolute w-full h-full"></div>
-              </li>
-              <li className="w-1/4 text-sm text-center">{p.email}</li>
-              <li className="w-1/4 flex justify-evenly">
-                <img
-                  onClick={() => deleteProductCardHandler(p.id)} // Call deleteProductCardHandler when delete button is clicked
-                  className="w-8 hover:scale-105 duration-300 cursor-pointer"
-                  src={deleteImage}
-                  alt=""
-                />
-              </li>
-            </ul>
-          ))}
+          <div className="relative top-2  flex flex-col rounded-lg">
+            {profiles.map((p, index) => (
+              <ul
+                key={p.id}
+                className={`  flex items-center font-sans roboto-medium py-3 text-gray-700  bg-white px-3 duration-300 hover:bg-gray-200 cursor-pointer `}
+              >
+                <li className="relative flex items-center gap-2 flex-1 ps-2">
+                  <img className="opacity-50" src={avatar} alt="" />
+                  <p>{p.username}</p>
+                  <div className="absolute w-full h-full"></div>
+                </li>
+                <li className="w-1/4 text-sm text-center">{p.email}</li>
+                <li className=" relative w-1/4 flex justify-end pr-2">
+                  <ActionOfUser userId={p._id} />
+                </li>
+              </ul>
+            ))}
+          </div>
         </div>
       )}
       {profiles && profiles.length === 0 && !loading && !error && (
@@ -82,10 +88,11 @@ function DashboardUsers() {
         </div>
       )}
       {/* {deleteProductCard && ( */}
-      <DeleteUserCard
-        deleteUserCard={deleteUserCard}
-        setDeleteUserCard={setDeleteUserCard}
-        deleteUserId={deleteUserId}
+      <DeleteCard
+        type={"product"}
+        deleteCard={deleteUserCard}
+        deleteId={deleteUserId}
+        setDeleteCard={setDeleteUserCard}
       />
       {/* )} */}
     </div>

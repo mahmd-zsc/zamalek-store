@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import obama from "../../images/home.png";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import { Link } from "react-router-dom";
 
 function FirstSection() {
   useEffect(() => {
@@ -48,7 +49,9 @@ function FirstSection() {
         </h5>
 
         <button className="shopNowSecondBlack bg-black px-4 py-2 rounded-2xl mt-2 border-2 border-black ">
-          <span className="button-text">Shop Now</span>
+          <Link to="/shop?category=Kits">
+            <span className="button-text">Shop Now</span>
+          </Link>
           <div className="fill-container"></div>
         </button>
       </div>

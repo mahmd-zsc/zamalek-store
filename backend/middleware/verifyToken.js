@@ -3,7 +3,6 @@ const jwt = require("jsonwebtoken");
 // Middleware to verify the presence and validity of a JWT token in the request headers
 const verifyToken = (req, res, next) => {
   const token = req.headers.token;
-  console.log(token);
 
   if (!token) {
     return res.status(404).json({ message: "No token provided" });

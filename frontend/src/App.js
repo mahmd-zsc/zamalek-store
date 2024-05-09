@@ -26,7 +26,6 @@ import Register from "./pages/forms/register";
 import "./App.css";
 import Profile from "./pages/profile/profile";
 import EditProfile from "./pages/profile/edit-profile";
-import DashboardAddProduct from "./pages/admin/DashboardAddProduct";
 import Product from "./pages/product/product";
 import DashboardEditProduct from "./pages/admin/DashboardEditProduct";
 import "animate.css";
@@ -87,12 +86,7 @@ function App() {
               user?.isAdmin ? <DashboardProducts /> : <Navigate to="/" />
             }
           />
-          <Route
-            path="products/add-product"
-            element={
-              user?.isAdmin ? <DashboardAddProduct /> : <Navigate to="/" />
-            }
-          />
+
           <Route
             path="products/edit-product/:productId"
             element={

@@ -77,3 +77,18 @@ export const updateBrandImage = (brandId, file) => {
     }
   };
 };
+
+export let getBrand = (brandId) => {
+  return async (dispatch) => {
+    try {
+      dispatch(brandActions.setLoading(true));
+      dispatch(brandActions.setError(null));
+      let { data } = await request.get(`brands/${brandId}`);
+      dispatch(brandActions.setBrand(data));
+      dispatch(brandActions.setLoading(false)); 
+    } catch (error) {
+      dispatch(brandActions.setError(error.response.data));
+      dispatch(brandActions.setLoading(false));
+    }
+  };
+};

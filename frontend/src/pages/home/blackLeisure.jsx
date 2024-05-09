@@ -3,6 +3,7 @@ import backgroundImage from "../../images/black-plain-concrete-textured.jpg";
 import people from "../../images/Remove-bg.ai_1710858884778.png";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import { Link } from "react-router-dom";
 
 function BlackLeisure() {
   useEffect(() => {
@@ -27,7 +28,9 @@ function BlackLeisure() {
             Black Leisure Cotton <span className=" lg:block">T-Shirts</span>
           </h6>
           <button className="shopNowSecondWhite block px-4 py-2 rounded-2xl mt-2 border-2 w-fit mx-auto sm:mx-0  ">
-            <span className="button-text">Shop Now</span>
+            <Link to="/shop?category=Fashion">
+              <span className="button-text">Shop Now</span>
+            </Link>
             <div className="fill-container"></div>
           </button>
         </div>

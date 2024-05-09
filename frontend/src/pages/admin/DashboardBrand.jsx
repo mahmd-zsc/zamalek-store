@@ -1,139 +1,99 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import deleteImage from "../../images/icons/trash.png";
-import editImage from "../../images/icons/pen.png";
-import AOS from "aos";
-import "aos/dist/aos.css";
-// import AddBrandForm from "../../components/addBrandForm/addBrandForm";
-// import EditBrandForm from "../../components/editBrandForm/editBrandForm";
-import { fetchBrands } from "../../redux/apiCalls/brandApiCalls";
-import AddBrandForm from "../../components/addBrandForm/addBrandForm";
-import DeleteBrandCard from "../../components/deleteBrandCard/deleteBrandCard";
-import EditBrandForm from "../../components/editBrandForm/editBrandForm";
 
-function DashboardBrand() {
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { dashboardActions } from "../../redux/slices/dashboardSlice";
+import { faBars, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { fetchBrands } from "../../redux/apiCalls/brandApiCalls";
+import ActionOfBrand from "../../components/actionOfBrand/actionOfBrand";
+
+function DashboardSize() {
   const { brands, loading, error } = useSelector((state) => state.brand);
   const dispatch = useDispatch();
-  const [brand, setBrand] = useState(null);
-  const [addBrand, setAddBrand] = useState(false);
-  const [editBrand, setEditBrand] = useState(false);
-  const [deleteBrand, setDeleteBrand] = useState(false);
-  const [brandIdToDelete, setBrandIdToDelete] = useState(null);
 
   useEffect(() => {
     dispatch(fetchBrands());
   }, [dispatch]);
-
-  useEffect(() => {
-    AOS.init();
-  }, []);
-
   const truncateDescription = (description, maxLength) => {
     if (description.length <= maxLength) {
       return description;
     }
     return description.substring(0, maxLength) + "...";
   };
+  let { fullSidebar } = useSelector((state) => state.dashboard);
 
   return (
-    <div className="dashboard-brand">
-      {loading && (
-        <div
-          style={{
-            width: "50px",
-            height: "50px",
-            border: "10px solid rgb(255, 0, 0);",
-            borderTopColor: "white",
-            animation: "loader 0.60s linear infinite",
-            borderRadius: "50%",
-          }}
-          className="circle-loading absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 m-auto"
-        ></div>
-      )}
-      {error && <div className="error-message">{error}</div>}
+    <div className="h-full flex flex-col gap-6  custom-scrollbar pb-24">
+      {error && <div>{error}</div>}
+      <div className=" flex items-center gap-4 text-gray-900 ">
+        <FontAwesomeIcon
+          onClick={() =>
+            dispatch(dashboardActions.setFullSidebar(!fullSidebar))
+          }
+          size="2xl"
+          icon={faBars}
+          className=" cursor-pointer"
+        />
+        <h2 className=" font-bold text-2xl">Brands</h2>
+      </div>
       {brands && brands.length > 0 && (
-        <div className="m-4 px-6 bg-gray-2 rounded-lg" data-aos="fade-up">
-          <ul className="flex capitalize py-4 text-white bg-mainRed">
-            <li className=" w-1/3 ps-3">brand</li>
-            <li className="flex-1">Description</li>
-            <li className=" w-1/6 text-center">action</li>
+        <div className="my-4  bg-gray-2 rounded-lg">
+          {/* Thead */}
+          <ul className="flex capitalize  py-4  text-gray-500 bg-white rounded-lg">
+            <li className="flex-1 ps-3">name</li>
+            <li className=" flex-1 ">description</li>
+            <li className=" relative w-1/12 flex px-5 text-center justify-end items-center">
+              <div
+                onClick={() =>
+                  dispatch(dashboardActions.setAction("create-brand"))
+                }
+                className="createProduct relative text-white hover:text-black cursor-pointer duration-300"
+              >
+                <FontAwesomeIcon icon={faPlus} className=" relative z-40   " />
+                <div className=" absolute w-10 h-10 bg-black  top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 duration-300 rounded-full border border-black"></div>
+              </div>
+            </li>
           </ul>
-          {brands.map((brand, index) => (
-            <ul
-              key={brand.id}
-              className={`flex items-center font-sans roboto-medium py-2 text-gray-700 border ${
-                index % 2 === 0 ? "bg-white" : "bg-gray-100"
-              }`}
-            >
-              <li className="relative  w-1/3 flex items-center gap-2  ps-2">
-                <div className=" w-10 h-10 rounded-full overflow-hidden">
-                  <img src={brand.image.url} alt="" />
-                </div>
-                <p>{brand.name}</p>
-                <div className="absolute w-full h-full"></div>
-              </li>
-              <li className="flex-1">
-                <p>{truncateDescription(brand.description, 45)}</p>
-              </li>
-              <li className=" w-1/6 text-center flex items-center justify-evenly">
-                <img
-                  className="  w-8 hover:scale-105 duration-300 cursor-pointer"
-                  src={editImage}
-                  alt=""
-                  onClick={() => {
-                    setBrand(brand);
-                    setEditBrand(true);
-                  }}
-                />
-                <img
-                  className="  w-8 hover:scale-105 duration-300 cursor-pointer"
-                  src={deleteImage}
-                  alt=""
-                  onClick={() => {
-                    setDeleteBrand(true);
-                    setBrandIdToDelete(brand._id);
-
-                  }}
-                />
-              </li>
-            </ul>
-          ))}
+          {/* Tbody */}
+          <div className="relative top-2  flex flex-col rounded-lg">
+            {brands.map((brand, index) => (
+              <ul
+                key={brand.id}
+                className={`flex items-center font-sans roboto-medium py-3 text-gray-700  bg-white px-3 duration-300 hover:bg-gray-200 cursor-pointer`}
+              >
+                <li className="relative flex items-center gap-2 flex-1 ps-2">
+                  <img
+                    className="w-10 rounded-full"
+                    src={brand.image.url}
+                    alt=""
+                  />
+                  <p>{brand.name}</p>
+                  <div className="absolute w-full h-full"></div>
+                </li>
+                <li className=" flex-1 ">
+                  <p>{truncateDescription(brand.description, 45)}</p>
+                </li>
+                <li className=" relative flex justify-end pr-2 w-1/12 ">
+                  <ActionOfBrand brandId={brand._id} />
+                </li>
+              </ul>
+            ))}{" "}
+          </div>
         </div>
       )}
       {brands && brands.length === 0 && !loading && !error && (
-        <div className="no-brands-message">
-          <p>There are no brands available</p>
+        <div className="m-4 px-6 bg-gray-2 rounded-lg flex justify-center items-center flex-col flex-1  text-gray-500 superFont">
+          <p className=" text-lg">There are no brands available</p>
+          <button
+            onClick={() => dispatch(dashboardActions.setAction("create-brand"))}
+            className=" bg-mainRed text-white p-2 rounded-lg mt-2"
+          >
+            add brand
+          </button>
         </div>
-      )}
-      {!loading && (
-        <button
-          // data-aos="fade-up"
-          onClick={() => setAddBrand(true)}
-          className="mx-10 my-5 bg-mainRed opacity-90 hover:opacity-100 duration-200 px-4 py-2 rounded-md mt-2 text-white"
-        >
-          Add brand
-        </button>
-      )}
-      {deleteBrand && (
-        <DeleteBrandCard
-          deleteBrandCard={deleteBrand}
-          brandId={brandIdToDelete}
-          setDeleteBrandCard={setDeleteBrand}
-        />
-      )}
-
-      {addBrand && (
-        <AddBrandForm addBrand={addBrand} setAddBrand={setAddBrand} />
-      )}
-      {editBrand && (
-        <EditBrandForm
-          brand={brand}
-          editBrand={editBrand}
-          setEditBrand={setEditBrand}
-        />
       )}
     </div>
   );
 }
 
-export default DashboardBrand;
+export default DashboardSize;

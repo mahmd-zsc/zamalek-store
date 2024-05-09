@@ -1,12 +1,14 @@
 import React, { useEffect } from "react";
-import AOS from "aos";
-import "aos/dist/aos.css"; // Import the CSS file for AOS
 import Thead from "./thead";
 import Tbody from "./tbody";
-
+import "./productTable.css";
+import { useDispatch } from "react-redux";
+import { fetchProducts } from "../../redux/apiCalls/productApiCalls";
 function ProductTable() {
+  let dispatch = useDispatch;
+
   return (
-    <div className="m-4 px-6 bg-gray-2 rounded-lg  ">
+    <div className="my-4  bg-gray-2 rounded-lg   ">
       <Thead />
       <Tbody />
     </div>

@@ -146,7 +146,6 @@ const updateImageBrandById = asyncHandler(async (req, res) => {
   fs.unlinkSync(imagePath); // Remove temporary image file
 
   return res.status(200).json(brand);
-  console.log("gg");
 });
 
 module.exports = {

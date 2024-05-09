@@ -5,6 +5,7 @@ import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { fetchProducts } from "../../redux/apiCalls/productApiCalls";
 import { useLocation } from "react-router-dom";
+import { ScrollToTop } from "../../utils/ScrollToTop ";
 
 function Pagination({ products, loading }) {
   let location = useLocation();
@@ -18,6 +19,7 @@ function Pagination({ products, loading }) {
     const page = +queryParams.get("page") || 1;
     setCurrentPage(page);
     setTotalPages(products.totalPages);
+    ScrollToTop();
   }, [products, dispatch]);
 
   const handleClickPage = (value) => {

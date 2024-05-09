@@ -2,8 +2,10 @@ import React, { useEffect } from "react";
 import players from "../../images/download 4.png";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import { useNavigate } from "react-router-dom";
 
 function BasketBall() {
+  let navigate = useNavigate();
   useEffect(() => {
     AOS.init();
   }, []);
@@ -29,7 +31,12 @@ function BasketBall() {
         </h5>
 
         <button className="shopNowSecondBlack bg-black px-4 py-2 rounded-2xl mt-2 border-2 border-black">
-          <span className="button-text">Shop Now</span>
+          <span
+            onClick={() => navigate("/shop?category=Kits")}
+            className="button-text"
+          >
+            Shop Now
+          </span>
           <div className="fill-container"></div>
         </button>
       </div>

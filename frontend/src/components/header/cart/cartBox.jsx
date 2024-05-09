@@ -105,7 +105,7 @@ function CartBox({ data }) {
                 ).toFixed(2)}
               </span>
             </p>
-            {product.discount && (
+            {product?.discount > 0  && (
               <p className="text-xs">
                 <del>
                   LE{" "}

@@ -1,14 +1,5 @@
 .sidebar .sidebar-nav .active {
-  color: red;
-}
-
-.angle:hover .angleTop {
-  transform: rotate(30deg);
-}
-.angle:hover .angleBottom {
-  transform: rotate(-30deg);
-}
-.angle {
-  transition-duration: 1s;
+  color: white;
+  background-color: #db1f24;
 }
 

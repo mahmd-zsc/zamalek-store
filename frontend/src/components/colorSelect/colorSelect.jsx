@@ -26,7 +26,7 @@ function ColorSelect({ handleChange, activeColor, setActiveColor }) {
           <div
             key={color.colorCode}
             onClick={() => handleClick(color.colorCode, color.name, color._id)}
-            className={`w-6 h-6 rounded-full cursor-pointer shadow-md hover:scale-110 duration-150 ${
+            className={`w-6 h-6 rounded-full cursor-pointer shadow-md hover:scale-110 duration-150 border border-black ${
               activeColor === color.name ? "active" : ""
             }`}
             style={{ backgroundColor: color.colorCode }}

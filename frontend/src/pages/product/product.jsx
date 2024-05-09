@@ -72,11 +72,12 @@ function Product() {
                   <span className="font-bold">
                     LE <span className="font-medium">{priceOffAmount}</span> EGP{" "}
                   </span>
-                  {product?.discount && (
+                  {product?.discount > 0  && (
                     <>
                       <span>
                         <del>LE {Number(product?.price).toFixed(2)} EGP</del>
                       </span>{" "}
+
                       <span className="ml-2 bg-red-500 text-white py-1 px-2 rounded-md text-xs">
                         {" "}
                         sale -save {percentageDiscount}%
@@ -119,19 +120,7 @@ function Product() {
                 <div>
                   {/* <p>{product.description}</p> */}
                   <p className="text-sm leading-6 text-gray-600">
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                    Corrupti rem in reprehenderit pariatur enim voluptatem error
-                    iusto eveniet possimus voluptates, velit est, facere
-                    doloremque voluptatibus unde! Ab numquam quaerat voluptate
-                    molestias debitis optio, nisi ipsum harum itaque atque eos
-                    asperiores eum minus, aut quas! Molestias libero voluptates
-                    iusto corrupti nam non quidem consequatur fugit, officiis
-                    modi nisi vero hic culpa, nobis unde eligendi alias omnis
-                    facilis? Incidunt officiis aperiam molestias sunt fugiat,
-                    hic consequatur id ex distinctio cumque obcaecati dolore,
-                    excepturi adipisci nostrum, vero nam. Officia libero est
-                    saepe minima sequi dolorem voluptatem mollitia iusto
-                    laborum, quas adipisci, quibusdam exercitationem.
+                  {product?.description}
                   </p>
                 </div>
               </div>

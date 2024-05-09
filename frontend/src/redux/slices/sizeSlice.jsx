@@ -8,10 +8,14 @@ const sizeSlice = createSlice({
     sizes: [],
     loading: true,
     error: null,
+    size: null,
   },
   reducers: {
-    getSize(state, action) {
+    setSizes(state, action) {
       state.sizes = action.payload;
+    },
+    setSize(state, action) {
+      state.size = action.payload;
     },
     setError(state, action) {
       state.error = action.payload;

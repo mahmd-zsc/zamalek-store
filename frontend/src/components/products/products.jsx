@@ -31,14 +31,15 @@ const Products = () => {
           <Link
             key={product.id}
             to={`/shop/products/${product.title.replace(/\s/g, "-")}`}
-            
           >
             <BoxProduct product={product} /> {/* Pass product as prop */}
           </Link>
         ))}
       </div>
-      {products?.data?.length > 0 ||
-        (saleProducts?.data?.length > 0 && <Pagination products={location.pathname.includes("sale") ? saleProducts : products} loading={loading}/>)}
+      <Pagination
+        products={location.pathname.includes("sale") ? saleProducts : products}
+        loading={loading}
+      />
     </div>
   );
 };

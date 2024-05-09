@@ -1,0 +1,8 @@
+.action svg:active {
+  transform: scale(-0.8);
+  /* transition-duration: 0.50s; */
+}
+
+.createProduct:hover div {
+  background-color: white;
+}

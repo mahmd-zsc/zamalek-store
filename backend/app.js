@@ -22,6 +22,7 @@ app.use(`${process.env.API_VERSION}brands/`, require("./routes/brand"));
 app.use(`${process.env.API_VERSION}users/`, require("./routes/user")); // Add the user route
 app.use(`${process.env.API_VERSION}auth/`, require("./routes/auth")); // Add the auth route
 app.use(`${process.env.API_VERSION}colors/`, require("./routes/color")); // Add the auth route
+app.use(`${process.env.API_VERSION}orders/`, require("./routes/order")); // Add the auth route
 
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on http://localhost:${process.env.PORT}`);

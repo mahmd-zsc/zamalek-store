@@ -11,8 +11,8 @@ import { productActions } from "../../redux/slices/productSlice";
 function UpdateProductImage() {
   const fileInputRef = useRef(null);
   const { product } = useSelector((state) => state.product);
+  const { editProductId } = useSelector((state) => state.dashboard);
   const [selectedFile, setSelectedFile] = useState(null);
-  let { productId } = useParams();
   let dispatch = useDispatch();
 
   const handleImageUploadClick = () => {
@@ -29,8 +29,8 @@ function UpdateProductImage() {
     formData.append("image", file);
 
     // Dispatch the action with the FormData
-    await dispatch(updateProductImage(productId, formData));
-    dispatch(productActions.setProducts([]));
+    await dispatch(updateProductImage(editProductId, formData));
+    dispatch(fetchProducts());
   };
 
   return (

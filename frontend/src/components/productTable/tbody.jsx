@@ -1,83 +1,57 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate } from "react-router-dom";
-import DeleteProductCard from "../deleteProductCard/deleteProductCard";
-import editImage from "../../images/icons/pen.png";
-import deleteImage from "../../images/icons/trash.png";
+import {
+  faEllipsis,
+  faEllipsisVertical,
+  faTrashAlt,
+} from "@fortawesome/free-solid-svg-icons";
+
+import { fetchProducts } from "../../redux/apiCalls/productApiCalls";
+import Action from "./action";
+import { Link, useNavigate } from "react-router-dom";
 function Tbody() {
   const { products } = useSelector((state) => state.product);
+  let dispatch = useDispatch();
   let navigate = useNavigate();
-  let [deleteProductCard, setDeleteProductCard] = useState(false);
-  let [deleteProductId, setDeleteProductId] = useState(null);
-  let deleteProductCardHandler = (productId) => {
-    setDeleteProductCard(true);
-    setDeleteProductId(productId);
-  };
-
   return (
-    <div className="   ">
-      {products.data.map((p, index) => (
-        <ul
-          key={p.id}
-          className={`flex items-center font-sans roboto-medium py-2 text-gray-700 border ${
-            index % 2 === 0 ? "bg-white" : "bg-gray-100"
-          } `}
-        >
-          <li
-            onClick={() => navigate(`/products/${p.id}`)}
-            className="flex items-center flex-1 cursor-pointer"
+    <div className=" relative top-2  flex flex-col rounded-lg     ">
+      {products &&
+        products.data &&
+        products?.data?.map((p, index) => (
+          <ul
+            key={p.id}
+            className={`   flex items-center font-sans roboto-medium py-3 text-gray-700  bg-white px-3 duration-300 hover:bg-gray-200   `}
           >
-            <div className="relative">
-              <img
-                className="w-20 h-20 hidden md:block"
-                src={p.image.url}
-                alt=""
-              />
-              <div className="absolute w-full h-full left-0 top-0"></div>
-            </div>
+            <li
+              onClick={() =>
+                navigate(`/shop/products/${p.title.replace(/\s/g, "-")}`)
+              }
+              className="flex-1 flex items-center gap-2 overflow-hidden cursor-pointer "
+            >
+              <img className="w-10 hidden sm:block" src={p.image.url} alt="" />
+              <span className="flex-1 max-w-full overflow-hidden whitespace-nowrap overflow-ellipsis opacity-80">
+                {p.title}
+              </span>
+            </li>
 
-            <div className="flex flex-col justify-evenly ps-3 md:ps-0">
-              <p className="w-[90%]">{p.title}</p>
-              <p className="opacity-70 text-xs">{p.price} EGY</p>
-            </div>
-          </li>
-          <li className="w-1/4 text-sm text-center">{p.category.name}</li>
-          <li className="w-1/4 flex justify-evenly">
-            {/* <FontAwesomeIcon
-              onClick={() => navigate(`edit-product/${p.id}`)}
-              icon={faEdit}
-              className="cursor-pointer transition duration-300 ease-in-out transform hover:scale-110"
-            /> */}
-            <img
-              onClick={() => navigate(`edit-product/${p.id}`)}
-              className=" w-8 hover:scale-105 duration-300 cursor-pointer"
-              src={editImage}
-              alt=""
-            />
-            {/* <FontAwesomeIcon
-              onClick={() => deleteProductCardHandler(p.id)}
-              icon={faTrashAlt}
-              className="cursor-pointer transition duration-300 ease-in-out transform hover:scale-110"
-            /> */}
-            <img
-              onClick={() => deleteProductCardHandler(p.id)}
-              className=" w-8 hover:scale-105 duration-300 cursor-pointer"
-              src={deleteImage}
-              alt=""
-            />
-          </li>
-        </ul>
-      ))}
-
-      <div className=" ">
-        <DeleteProductCard
-          deleteProductCard={deleteProductCard}
-          setDeleteProductCard={setDeleteProductCard}
-          deleteProductId={deleteProductId}
-        />
-      </div>
+            <li className=" w-1/4 sm:w-1/6 flex items-center justify-center overflow-hidden">
+              <span className=" text-sm opacity-80 ">{p?.category?.name}</span>
+            </li>
+            <li className=" w-1/4 sm:w-1/6 flex items-center justify-center overflow-hidden">
+              <span className="text-sm opacity-80 ">{p?.brand?.name}</span>
+            </li>
+            <li className="sm:flex hidden w-1/6 items-center justify-center overflow-hidden">
+              <span className="text-xs opacity-80 ">{p?.price} </span>
+            </li>
+            <li className=" sm:flex hidden w-1/6  items-center justify-center overflow-hidden">
+              <span className="text-xs opacity-80 ">
+                {p.discount ? p.discount : 0}{" "}
+              </span>
+            </li>
+            <Action data={p} />
+          </ul>
+        ))}
     </div>
   );
 }

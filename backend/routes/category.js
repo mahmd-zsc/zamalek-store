@@ -6,8 +6,10 @@ const {
   createCategory,
   updateCategory,
   deleteCategory,
+  updateImageCategoryById,
 } = require("../controllers/categoryCtrl");
 const { verifyTokenAndAdmin } = require("../middleware/verifyToken"); // Modify middleware as needed
+const { imageUpload } = require("../middleware/uploadImage");
 
 // Create an Express router
 const router = express.Router();
@@ -18,7 +20,7 @@ router
   .route("/")
   .get(getAllCategories)
   //   .post(verifyTokenAndAdmin, createCategory);
-  .post(createCategory);
+  .post(imageUpload.single("image"), createCategory);
 
 // Route: Get, Update, and Delete a category by ID (Public access)
 // Route: Get a category by ID (Public access)
@@ -30,5 +32,10 @@ router
   //   .delete(verifyTokenAndAdmin, deleteCategory);
   .delete(deleteCategory);
 
+router.put(
+  "/update-image/:id",
+  imageUpload.single("image"),
+  updateImageCategoryById
+);
 // Export the router
 module.exports = router;

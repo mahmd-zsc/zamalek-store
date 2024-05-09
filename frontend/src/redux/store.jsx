@@ -11,6 +11,7 @@ import { sizeReducer } from "./slices/sizeSlice";
 import { colorReducer } from "./slices/colorSlice";
 import { searchReducer } from "./slices/searchSlice";
 import { cartReducer } from "./slices/cartSlice";
+import { dashboardReducer } from "./slices/dashboardSlice";
 
 // const store = createStore(rootReducer, applyMiddleware(thunk));
 const store = configureStore({
@@ -24,6 +25,7 @@ const store = configureStore({
     color: colorReducer,
     search: searchReducer,
     cart: cartReducer,
+    dashboard: dashboardReducer,
   },
 });
 

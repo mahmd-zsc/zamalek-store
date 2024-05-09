@@ -13,8 +13,16 @@ const categorySchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    // products: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
-    // You can replace 'Product' with the actual model name for your products
+    image: {
+      url: {
+        type: String,
+        required: true,
+      },
+      publicId: {
+        type: String,
+        required: true,
+      },
+    },
   },
   {
     timestamps: true,
@@ -34,6 +42,10 @@ const createCategoryValidation = (obj) => {
   const schema = joi.object({
     name: joi.string().required().trim(),
     description: joi.string().required(),
+    image: joi.object({
+      url: joi.string().required(),
+      publicId: joi.string().required(),
+    }),
   });
   return schema.validate(obj);
 };
@@ -43,6 +55,10 @@ const updateCategoryValidation = (obj) => {
     .object({
       name: joi.string().trim(),
       description: joi.string(),
+      image: joi.object({
+        url: joi.string(),
+        publicId: joi.string(),
+      }),
       // Add validation for additional properties if needed
     })
     .min(1); // at least one property is required for update

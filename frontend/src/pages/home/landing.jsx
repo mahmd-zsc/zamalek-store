@@ -3,6 +3,7 @@ import backgroundImage from "../../images/download.jpg";
 import "./shopNow.css";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import { Link } from "react-router-dom";
 
 function Landing() {
   useEffect(() => {
@@ -29,9 +30,11 @@ function Landing() {
               HOME & AWAY
             </span>
           </h3>
+          <Link to="/shop/products/Zamalek-Home-Match-Jersey-23-24---Fan-Edition">
           <button className="shopNow font-bold block px-6 sm:px-8 md:px-10 py-2 sm:py-3 md:py-4 mt-2">
             Shop Now
           </button>
+          </Link>
         </div>
       </div>
     </div>

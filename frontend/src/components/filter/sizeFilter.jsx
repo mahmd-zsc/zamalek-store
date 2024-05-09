@@ -78,7 +78,7 @@ function SizeFilter() {
         style={{
           transition: "max-height 0.50s ease",
         }}
-        className={` py-2 overflow-hidden ${open ? " max-h-72" : "max-h-0"}`}
+        className={` py-2 overflow-hidden ${open ? " max-h-96" : "max-h-0"}`}
       >
         <ul
           className={`flex flex-col gap-4 
