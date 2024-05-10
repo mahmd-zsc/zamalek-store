@@ -23,6 +23,7 @@ app.use(helmet());
 app.use(cors());
 
 // Routes for entities
+app.use(errorHandler);
 app.use(`${process.env.API_VERSION}categories/`, require("./routes/category"));
 app.use(`${process.env.API_VERSION}sizes/`, require("./routes/size"));
 app.use(`${process.env.API_VERSION}products/`, require("./routes/product"));
@@ -31,12 +32,11 @@ app.use(`${process.env.API_VERSION}users/`, require("./routes/user"));
 app.use(`${process.env.API_VERSION}auth/`, require("./routes/auth"));
 app.use(`${process.env.API_VERSION}colors/`, require("./routes/color"));
 app.use(`${process.env.API_VERSION}orders/`, require("./routes/order"));
-app.use(express.static(`E:\\Programming\\zamalek-store\\frontend\\build`))
-app.get("*",(req, res)=> {
-  res.sendFile(`E:\\Programming\\zamalek-store\\frontend\\build\\index.html`)
-});
+// app.use(express.static(`E:\\Programming\\zamalek-store\\frontend\\build`))
+// app.get("*",(req, res)=> {
+//   res.sendFile(`E:\\Programming\\zamalek-store\\frontend\\build\\index.html`)
+// });
 // Error handling middleware
-app.use(errorHandler);
 
 // Start the server
 const PORT = process.env.PORT || 3000;

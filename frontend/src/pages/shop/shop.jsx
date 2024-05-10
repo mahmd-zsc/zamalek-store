@@ -51,7 +51,7 @@ function Shop() {
           </div>
           <div className="flex-1">
             <div>
-              {products && products?.data && <Products />}
+              {products && products.data && <Products />}
               {/* Ensure products.data is not undefined before rendering */}
             </div>
           </div>
