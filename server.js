@@ -6,6 +6,7 @@ const errorHandler = require("./middleware/errorHandler");
 const helmet = require("helmet");
 const cors = require("cors");
 const path = require("path");
+const fs = require("fs");
 
 // Initialize Express app
 const app = express();
@@ -21,6 +22,7 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, "images"))); // Serving images
 app.use(helmet());
 app.use(cors());
+
 // Routes for entities
 app.use(`${process.env.API_VERSION}categories/`, require("./routes/category"));
 app.use(`${process.env.API_VERSION}sizes/`, require("./routes/size"));
@@ -32,10 +34,15 @@ app.use(`${process.env.API_VERSION}colors/`, require("./routes/color"));
 app.use(`${process.env.API_VERSION}orders/`, require("./routes/order"));
 
 // Serving static files for client build
-app.use(express.static(path.join(__dirname, "/client/build")));
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "/client/build/index.html"));
-});
+const clientBuildPath = path.join(__dirname, "/client/build");
+if (fs.existsSync(clientBuildPath)) {
+  app.use(express.static(clientBuildPath));
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(clientBuildPath, "index.html"));
+  });
+} else {
+  console.error("Client build directory not found!");
+}
 
 // Error handling middleware (should come after all routes)
 app.use(errorHandler);
