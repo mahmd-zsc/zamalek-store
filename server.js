@@ -21,9 +21,7 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, "images"))); // Serving images
 app.use(helmet());
 app.use(cors());
-app.get("/", (req, res) => {
-  res.json({ message: "hello world" });
-});
+
 // Routes for entities
 app.use(`${process.env.API_VERSION}categories/`, require("./routes/category"));
 app.use(`${process.env.API_VERSION}sizes/`, require("./routes/size"));
