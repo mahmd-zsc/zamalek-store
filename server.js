@@ -10,33 +10,34 @@ const path = require("path");
 // Initialize Express app
 const app = express();
 
-// Load environment variables
+// Environment Variables and Database Connection
 dotenv.config({ path: ".env" });
-
-// Connect to the database
 connectWithDb();
 
+// Express App Initialization
+
 // Middleware
-app.use(express.json());
-app.use(express.static(path.join(__dirname, "images"))); // Serving images
-app.use(helmet());
-app.use(cors());
+app.use(express.json()); // Parse JSON data in request body
+app.use(express.static(path.join(__dirname, "images"))); // Serve images folder
+app.use(helmet()); // Enhance security headers
+app.use(cors()); // Enable Cross-Origin Resource Sharing
 
 // Routes for entities
-app.use(`${process.env.API_VERSION}categories/`, require("./routes/category"));
-app.use(`${process.env.API_VERSION}sizes/`, require("./routes/size"));
-app.use(`${process.env.API_VERSION}products/`, require("./routes/product"));
-app.use(`${process.env.API_VERSION}brands/`, require("./routes/brand"));
-app.use(`${process.env.API_VERSION}users/`, require("./routes/user"));
 app.use(`${process.env.API_VERSION}auth/`, require("./routes/auth"));
+app.use(`${process.env.API_VERSION}brands/`, require("./routes/brand"));
+app.use(`${process.env.API_VERSION}categories/`, require("./routes/category"));
 app.use(`${process.env.API_VERSION}colors/`, require("./routes/color"));
 app.use(`${process.env.API_VERSION}orders/`, require("./routes/order"));
+app.use(`${process.env.API_VERSION}products/`, require("./routes/product"));
+app.use(`${process.env.API_VERSION}sizes/`, require("./routes/size"));
+app.use(`${process.env.API_VERSION}users/`, require("./routes/user"));
 
-// Serving static files for client build
-app.use(express.static(path.join(__dirname, "/client/build")));
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "/client/build/index.html"));
-});
+// Serving Static Files
+// app.use(express.static(path.join(__dirname, "/client/build")));
+
+// app.get("*", (req, res) => {
+//   res.sendFile(path.join(__dirname, "/client/build/index.html"));
+// });
 
 // Error handling middleware (should come after all routes)
 app.use(errorHandler);
